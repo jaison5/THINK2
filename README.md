@@ -1,8 +1,8 @@
-# 論文二：有交易成本、動作遮罩與 walk-forward 的量子強化學習匯率交易評估
+# 有交易成本、動作遮罩與 walk-forward 的量子強化學習匯率交易評估
 
 **暫定題目**：Cost-Aware, Risk-Adjusted Quantum Reinforcement Learning for FX Trading: A Masked, Walk-Forward Re-evaluation of QA3C
 
-這個資料夾放論文二用到的所有程式、資料、結果和紀錄，由 `B:\qfin-main\sync_papers.py` 從原本的實驗資料夾複製過來。資料夾結構和原本相同（`qfin-main`、`B`、`C` 並排），程式不用改路徑就能直接執行。
+資料夾放用到的所有程式、資料、結果和紀錄，由 `B:\qfin-main\sync_papers.py` 從原本的實驗資料夾複製過來。
 
 ## 研究目的
 
@@ -70,10 +70,3 @@ cd C
 ```
 
 原論文的重現步驟見 `qfin-main/README.md`、`qfin-main/REPRODUCTION_WIN.md`。
-
-## 相關文件
-
-- [新論文的突破策略與投稿設計](https://claude.ai/code/artifact/cbcf5076-6d03-4d70-9ebd-d0170d1c2da1)
-- [兩篇論文的痛點與新論文方向](https://claude.ai/code/artifact/d17dcfc8-2d23-4782-a022-1cdd99179598)
-- 原論文：Quantum-Enhanced Forecasting for Deep Reinforcement Learning in Algorithmic Trading（[arXiv 2509.09176](https://arxiv.org/abs/2509.09176)）
-- 同一實驗室的相關研究：Liu et al., QCE 2025（[arXiv 2507.12835](https://arxiv.org/abs/2507.12835)）
