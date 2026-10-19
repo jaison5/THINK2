@@ -13,16 +13,16 @@
 
 | 文獻 | 做了什麼 | 和方向 C 的重疊 | 我們的差異 |
 |---|---|---|---|
-| [論文二：Chen、Huang、Tsai、Chen 2025（2509.09176）](https://arxiv.org/abs/2509.09176) | QLSTM 預測＋QA3C 交易 USD/TWD；報酬 11.87%、回撤 0.92%；單一切分、單次執行 | **高**：被檢驗的論文 | 遮罩、成本、walk-forward、多種子、同參數量古典基準、消融 |
+| [Chen、Huang、Tsai、Chen 2025（2509.09176）](https://arxiv.org/abs/2509.09176) | QLSTM 預測＋QA3C 交易 USD/TWD；報酬 11.87%、回撤 0.92%；單一切分、單次執行 | **高**：被檢驗的論文 | 遮罩、成本、walk-forward、多種子、同參數量古典基準、消融 |
 | [Liu、Pan、Lu、Tsai、Chen 2025（QCE 2025，2507.12835）](https://arxiv.org/abs/2507.12835) | 古典 vs. 量子 A3C，有無 LSTM 預測訊號；S&P 500 週資料（2022-01～2024-04）；量子 A3C＋LSTM 累積報酬 30.13%；有成本項但沒給數值；單次執行、沒有種子變異、沒說明切分 | **高**：同樣的比較（古典 vs. 量子 A3C＋預測訊號） | 我們的成本是明確的數值並掃描三種；walk-forward；多種子＋成對檢定；參數量相同（238 vs. 244）；預測器消融含理想上限 |
 | [Liu、Tsai、Chen 2025，Q-A3C2（2512.21819）](https://arxiv.org/abs/2512.21819) | VQC 加進 A3C 策略網路＋動態分群選 ETF；單一 train／validation 切分；沒有交易成本；沒有種子變異；有參數量相同的 MLP 基準但沒給數字；報酬 17.09% vs. 大盤 7.09% | 高：QA3C 在金融的應用 | 同上；我們報告成本敏感度與統計顯著性 |
 | [Chen 2023，Asynchronous training of quantum reinforcement learning（2301.05096）](https://arxiv.org/abs/2301.05096) | QA3C 的原始方法（Procedia Computer Science 222）；在一般 RL 任務上和同大小的古典代理人相當或更好 | 中：方法來源 | 我們檢驗它在有成本的交易環境中是否成立 |
-| [Dutta 等人 2024，QADQN（QCE 2024，2408.03088）](https://arxiv.org/abs/2408.03088) | VQC 放進 DQN，含固定交易成本；Sortino 1.28／1.19 | 中：量子 RL 交易＋成本 | 不同演算法（DQN）；我們專注 QA3C 系列並做消融 |
+| [Dutta ... 2024，QADQN（QCE 2024，2408.03088）](https://arxiv.org/abs/2408.03088) | VQC 放進 DQN，含固定交易成本；Sortino 1.28／1.19 | 中：量子 RL 交易＋成本 | 不同演算法（DQN）；我們專注 QA3C 系列並做消融 |
 | [Moody 與 Saffell（NeurIPS 1998；IEEE TNN 2001）](https://papers.nips.cc/paper/1551-reinforcement-learning-for-trading) | 直接強化學習交易，以差分 Sharpe 為目標、考慮交易成本 | 中：風險調整獎勵與成本的經典做法 | 我們用 log 報酬獎勵，可再加差分 Sharpe（見突破實驗 4） |
 | [Zhang、Zohren、Roberts 2020（1911.10107）](https://arxiv.org/abs/1911.10107) | DRL 交易 50 種期貨，在高交易成本下仍有正報酬 | 低：古典 DRL 的成本處理範例 | — |
 | [FinRL（2011.09607）](https://arxiv.org/abs/2011.09607) | 開源 DRL 交易函式庫，環境含交易成本、流動性等摩擦 | 低：環境設計參考 | — |
 | [Huang 與 Ontañón（2006.14171）](https://arxiv.org/abs/2006.14171) | 證明動作遮罩保持策略梯度有效，且比「懲罰無效動作」更能擴展 | 中：遮罩的理論依據 | 我們在 QA3C 交易上實際看到「輕罰無效動作」被鑽漏洞 |
-| [Skalse 等人 2022，Defining and Characterizing Reward Hacking（2209.13085）](https://arxiv.org/abs/2209.13085) | 形式化定義 reward hacking，並指出不可被鑽漏洞的代理獎勵很少見 | 中：獎勵被鑽漏洞的理論 | 我們提供金融交易中的具體案例：從不持有、用無效賣出空手 |
+| [Skalse ... 2022，Defining and Characterizing Reward Hacking（2209.13085）](https://arxiv.org/abs/2209.13085) | 形式化定義 reward hacking，並指出不可被鑽漏洞的代理獎勵很少見 | 中：獎勵被鑽漏洞的理論 | 我們提供金融交易中的具體案例：從不持有、用無效賣出空手 |
 | [Bailey 與 López de Prado 2014，Deflated Sharpe Ratio](https://papers.ssrn.com/abstract=2460551)、[Bailey 等人，PBO](https://papers.ssrn.com/abstract=2326253) | 修正多重測試與非常態造成的 Sharpe 高估；估計回測過度擬合機率 | 低：標準工具 | 這三篇 QA3C 論文都沒有用 |
 
 ## 我們的差異
