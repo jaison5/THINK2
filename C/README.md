@@ -1,6 +1,6 @@
-# 方向 C：有交易成本、動作遮罩與 walk-forward 的量子強化學習交易評估
+# 有交易成本、動作遮罩與 walk-forward 的量子強化學習交易評估
 
-**暫定題目**：Cost-Aware, Risk-Adjusted Quantum Reinforcement Learning for FX Trading: A Masked, Walk-Forward Re-evaluation of QA3C
+**暫定**：Cost-Aware, Risk-Adjusted Quantum Reinforcement Learning for FX Trading: A Masked, Walk-Forward Re-evaluation of QA3C
 
 ## 結論
 
