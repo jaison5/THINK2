@@ -2,7 +2,7 @@
 
 **暫定題目**：Cost-Aware, Risk-Adjusted Quantum Reinforcement Learning for FX Trading: A Masked, Walk-Forward Re-evaluation of QA3C
 
-這個資料夾放論文二用到的所有程式、資料、結果和紀錄，由 `B:\qfin-main\sync_papers.py` 從原本的實驗資料夾複製過來。資料夾結構和原本相同（`qfin-main`、`B`、`C` 並排），程式不用改路徑就能直接執行。
+資料夾放用到的所有程式、資料、結果和紀錄，由 `B:\qfin-main\sync_papers.py` 從原本的實驗資料夾複製過來。資料夾結構和原本相同（`qfin-main`、`B`、`C` 並排），程式不用改路徑就能直接執行。
 
 ## 研究目的
 
