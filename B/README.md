@@ -1,6 +1,6 @@
-# 方向 B：量子序列模型批次訓練的效能剖析
+# 量子序列模型批次訓練的效能剖析
 
-**暫定題目**：Where Does the Time Go? Profiling Batched Training of Quantum Sequence Models
+**暫定**：Where Does the Time Go? Profiling Batched Training of Quantum Sequence Models
 
 ## 結論
 
