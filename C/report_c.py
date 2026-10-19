@@ -168,7 +168,7 @@ def main():
             md += ["\n### 交叉驗證：舊版（PyTorch 抽樣）vs 新版（NumPy 抽樣）的 QA3C（logret、成本 0.05%）\n", md_table(t),
                    f"\n平均報酬：舊版 {j.ret_old.mean():.2f}%、新版 {j.ret_new.mean():.2f}%；"
                    f"平均交易次數：舊版 {j.trades_old.mean():.1f}、新版 {j.trades_new.mean():.1f}。\n"]
-    (RES / "summary_c.json").write_text(json.dumps(out, indent=1, ensure_ascii=False, default=float))
+    (RES / "summary_c.json").write_text(json.dumps(out, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
     (RES / "summary_c.md").write_text("\n".join(md), encoding="utf-8")
     print("\n".join(md))
 
