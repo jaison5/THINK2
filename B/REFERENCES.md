@@ -22,7 +22,7 @@
 | [Abbas ....，The power of quantum neural networks（2011.00027）](https://arxiv.org/abs/2011.00027) | 以 Fisher 資訊定義有效維度 | 中：「有效參數量」的理論基礎 | 可用來定義比 EPC 更公平的比較標準（見突破實驗 2） |
 | [Batched Training for QLSTM vs. QFWP（2512.21820）](https://arxiv.org/abs/2512.21820) | 被檢驗的系統結論：批次加速約 2 倍、反向是瓶頸 | — | — |
 
-## 我們的差異
+## 差異
 
 - 用實測證明：PennyLane lightning.qubit 每筆樣本的成本在 batch 16 以上就停在約 17 ms（QLSTM），所以批次加速被卡在約 2.5 倍；這是模擬器的實作問題，不是量子模型或反向傳播的本質。
 - 換成批次化模擬後，每筆成本在 batch 256 時降到 0.19 ms（CPU）／0.09 ms（GPU）；完整訓練快 6～61 倍，批次加速比變成 25 倍（CPU）／64 倍（GPU）。
@@ -30,7 +30,7 @@
 - `device_vjp` 讓反向變成主要耗時，但整體更慢（0.6～0.9 倍）；parameter-shift 無法用在批次輸入。
 - 有效參數：在 repo 的電路配置下，QLSTM 16／32、QFWP 8／33 個參數梯度恆為 0（論文原始配置需向作者確認）。
 
-## 建議的突破實驗
+## 希望的突破實驗
 
 1. **和現有工具正面比較。** 在同一個 QLSTM／QFWP 工作負載上，比較 lightning.qubit、default.qubit（backprop）、TorchQuantum、TensorCircuit 與 fastsim，而不是只比自己寫的模擬器。這樣結論是「選對工具就能突破 2 倍」，貢獻更有說服力。參考：Wang 等人 2022；TensorCircuit。
 2. **有效參數量（EPC-eff）。** 用光錐分析加上 Fisher 資訊矩陣的秩，定義「有效參數量」，在有效參數相同的條件下重做 QLSTM vs. QFWP vs. 古典模型的比較。再把電路改成所有參數都有作用的配置（例如可訓練層放在糾纏閘之前，或量測全部線），看準確率是否改善。參考：Abbas 等人；Haug 等人 2021；Lee 等人 2024。
