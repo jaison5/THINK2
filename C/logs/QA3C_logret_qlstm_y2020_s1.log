@@ -1,0 +1,17 @@
+QA3C logret qlstm y2020 s1: 100/1600 episodes，近 100 次平均獎勵 -14.3，驗證 Sharpe 0.00（交易 0 次），1.0 分鐘
+QA3C logret qlstm y2020 s1: 200/1600 episodes，近 100 次平均獎勵 -13.2，驗證 Sharpe 0.00（交易 0 次），1.9 分鐘
+QA3C logret qlstm y2020 s1: 300/1600 episodes，近 100 次平均獎勵 -12.9，驗證 Sharpe 0.00（交易 0 次），2.7 分鐘
+QA3C logret qlstm y2020 s1: 400/1600 episodes，近 100 次平均獎勵 -12.2，驗證 Sharpe 0.00（交易 0 次），3.5 分鐘
+QA3C logret qlstm y2020 s1: 500/1600 episodes，近 100 次平均獎勵 -11.8，驗證 Sharpe 0.00（交易 0 次），4.3 分鐘
+QA3C logret qlstm y2020 s1: 600/1600 episodes，近 100 次平均獎勵 -10.9，驗證 Sharpe 0.00（交易 0 次），5.1 分鐘
+QA3C logret qlstm y2020 s1: 700/1600 episodes，近 100 次平均獎勵 -10.0，驗證 Sharpe 0.00（交易 0 次），5.9 分鐘
+QA3C logret qlstm y2020 s1: 800/1600 episodes，近 100 次平均獎勵 -9.2，驗證 Sharpe 0.00（交易 0 次），6.9 分鐘
+QA3C logret qlstm y2020 s1: 900/1600 episodes，近 100 次平均獎勵 -8.0，驗證 Sharpe 0.00（交易 0 次），7.8 分鐘
+QA3C logret qlstm y2020 s1: 1000/1600 episodes，近 100 次平均獎勵 -7.9，驗證 Sharpe 0.00（交易 0 次），8.9 分鐘
+QA3C logret qlstm y2020 s1: 1100/1600 episodes，近 100 次平均獎勵 -7.4，驗證 Sharpe -0.00（交易 2 次），9.7 分鐘
+QA3C logret qlstm y2020 s1: 1200/1600 episodes，近 100 次平均獎勵 -7.5，驗證 Sharpe 0.63（交易 3 次），10.7 分鐘
+QA3C logret qlstm y2020 s1: 1300/1600 episodes，近 100 次平均獎勵 -5.5，驗證 Sharpe -0.56（交易 2 次），11.9 分鐘
+QA3C logret qlstm y2020 s1: 1400/1600 episodes，近 100 次平均獎勵 -4.7，驗證 Sharpe -0.32（交易 3 次），12.8 分鐘
+QA3C logret qlstm y2020 s1: 1500/1600 episodes，近 100 次平均獎勵 -4.9，驗證 Sharpe -0.35（交易 3 次），13.6 分鐘
+QA3C logret qlstm y2020 s1: 1600/1600 episodes，近 100 次平均獎勵 -3.3，驗證 Sharpe -0.37（交易 3 次），14.4 分鐘
+完成 QA3C_logret_qlstm_y2020_s1.json：測試年報酬 -3.88%（成本 0.05%），Sharpe -1.21，交易 3 次，持倉 62%，14.5 分鐘

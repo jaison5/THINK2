@@ -1,0 +1,1252 @@
+{
+ "agent": "A3C",
+ "seed": 2,
+ "episodes": 1600,
+ "n_params": 3332,
+ "probs": "QLSTM_s0",
+ "train_minutes": 3.6995071093241374,
+ "log": [
+  {
+   "episode": 8,
+   "mean_reward": 1223.9708882945865,
+   "mean_return_pct": -5.303972580054449,
+   "minutes": 0.018461414178212485
+  },
+  {
+   "episode": 16,
+   "mean_reward": 2109.621834640415,
+   "mean_return_pct": 2.2044217768706034,
+   "minutes": 0.03511948982874553
+  },
+  {
+   "episode": 24,
+   "mean_reward": 2882.002537516788,
+   "mean_return_pct": 6.906962788601501,
+   "minutes": 0.05161483685175578
+  },
+  {
+   "episode": 32,
+   "mean_reward": 3102.253236440267,
+   "mean_return_pct": 7.162644878841565,
+   "minutes": 0.06850585540135702
+  },
+  {
+   "episode": 40,
+   "mean_reward": 3623.9252664483683,
+   "mean_return_pct": 11.270795494677364,
+   "minutes": 0.08528736829757691
+  },
+  {
+   "episode": 48,
+   "mean_reward": 3733.428997826555,
+   "mean_return_pct": 12.398304597560205,
+   "minutes": 0.10409778753916422
+  },
+  {
+   "episode": 56,
+   "mean_reward": 4162.796437641842,
+   "mean_return_pct": 15.841407185747624,
+   "minutes": 0.12127593358357748
+  },
+  {
+   "episode": 64,
+   "mean_reward": 4590.696337570102,
+   "mean_return_pct": 19.11828778446728,
+   "minutes": 0.14017337560653687
+  },
+  {
+   "episode": 72,
+   "mean_reward": 4254.4890040705395,
+   "mean_return_pct": 17.485168619094598,
+   "minutes": 0.1572602351506551
+  },
+  {
+   "episode": 80,
+   "mean_reward": 4520.034569022918,
+   "mean_return_pct": 19.139845526606646,
+   "minutes": 0.17469247976938884
+  },
+  {
+   "episode": 88,
+   "mean_reward": 4955.687047963493,
+   "mean_return_pct": 20.517575150607197,
+   "minutes": 0.1942268967628479
+  },
+  {
+   "episode": 96,
+   "mean_reward": 5035.572288240565,
+   "mean_return_pct": 24.989051898753097,
+   "minutes": 0.2127947688102722
+  },
+  {
+   "episode": 104,
+   "mean_reward": 5110.050588693087,
+   "mean_return_pct": 23.333196547759854,
+   "minutes": 0.2298832853635152
+  },
+  {
+   "episode": 112,
+   "mean_reward": 5529.146704008805,
+   "mean_return_pct": 26.082846058449977,
+   "minutes": 0.24838153521219888
+  },
+  {
+   "episode": 120,
+   "mean_reward": 5205.39524588557,
+   "mean_return_pct": 23.83533689892593,
+   "minutes": 0.2697944362958272
+  },
+  {
+   "episode": 128,
+   "mean_reward": 5394.674853488008,
+   "mean_return_pct": 24.848051665414722,
+   "minutes": 0.2877298394838969
+  },
+  {
+   "episode": 136,
+   "mean_reward": 5491.0321555718765,
+   "mean_return_pct": 25.74735812606158,
+   "minutes": 0.30591480334599813
+  },
+  {
+   "episode": 144,
+   "mean_reward": 5860.106034601067,
+   "mean_return_pct": 27.448243521414817,
+   "minutes": 0.32563047409057616
+  },
+  {
+   "episode": 152,
+   "mean_reward": 5953.5169861228105,
+   "mean_return_pct": 28.108637700941948,
+   "minutes": 0.3434663693110148
+  },
+  {
+   "episode": 160,
+   "mean_reward": 6005.815761581666,
+   "mean_return_pct": 28.4027344939757,
+   "minutes": 0.3613990624745687
+  },
+  {
+   "episode": 168,
+   "mean_reward": 6126.816042538243,
+   "mean_return_pct": 29.09030579181358,
+   "minutes": 0.37732049226760866
+  },
+  {
+   "episode": 176,
+   "mean_reward": 6347.967955131837,
+   "mean_return_pct": 30.099921788432393,
+   "minutes": 0.3936914841334025
+  },
+  {
+   "episode": 184,
+   "mean_reward": 6381.881336727461,
+   "mean_return_pct": 31.20926271612412,
+   "minutes": 0.4155084808667501
+  },
+  {
+   "episode": 192,
+   "mean_reward": 6417.955947734135,
+   "mean_return_pct": 30.16813377588211,
+   "minutes": 0.4386860251426697
+  },
+  {
+   "episode": 200,
+   "mean_reward": 6474.364584304184,
+   "mean_return_pct": 31.40630138582909,
+   "minutes": 0.45823788245519004
+  },
+  {
+   "episode": 208,
+   "mean_reward": 6291.428507149931,
+   "mean_return_pct": 30.119643436067634,
+   "minutes": 0.47734431028366087
+  },
+  {
+   "episode": 216,
+   "mean_reward": 6693.201693724865,
+   "mean_return_pct": 32.88247552866676,
+   "minutes": 0.49756526947021484
+  },
+  {
+   "episode": 224,
+   "mean_reward": 6622.298660411498,
+   "mean_return_pct": 33.01759792387236,
+   "minutes": 0.5172521114349365
+  },
+  {
+   "episode": 232,
+   "mean_reward": 6839.551100146691,
+   "mean_return_pct": 33.463337291210024,
+   "minutes": 0.5356681227684021
+  },
+  {
+   "episode": 240,
+   "mean_reward": 6858.33273117912,
+   "mean_return_pct": 33.374156673874694,
+   "minutes": 0.5532602945963542
+  },
+  {
+   "episode": 248,
+   "mean_reward": 7163.506365571584,
+   "mean_return_pct": 35.21353658647674,
+   "minutes": 0.5695003668467203
+  },
+  {
+   "episode": 256,
+   "mean_reward": 6911.47054539551,
+   "mean_return_pct": 32.92778556740231,
+   "minutes": 0.5885844667752583
+  },
+  {
+   "episode": 264,
+   "mean_reward": 6701.047694999408,
+   "mean_return_pct": 34.11334547498724,
+   "minutes": 0.6061750888824463
+  },
+  {
+   "episode": 272,
+   "mean_reward": 6909.2990929879925,
+   "mean_return_pct": 33.617952433539436,
+   "minutes": 0.6229769388834635
+  },
+  {
+   "episode": 280,
+   "mean_reward": 7339.803222917368,
+   "mean_return_pct": 35.41657630351834,
+   "minutes": 0.6410614252090454
+  },
+  {
+   "episode": 288,
+   "mean_reward": 7076.201610918237,
+   "mean_return_pct": 33.2363871785583,
+   "minutes": 0.6592834035555521
+  },
+  {
+   "episode": 296,
+   "mean_reward": 7076.293752678852,
+   "mean_return_pct": 33.049672170088954,
+   "minutes": 0.6800642371177673
+  },
+  {
+   "episode": 304,
+   "mean_reward": 6770.245278800714,
+   "mean_return_pct": 31.057369197955975,
+   "minutes": 0.69693071047465
+  },
+  {
+   "episode": 312,
+   "mean_reward": 7499.516916242496,
+   "mean_return_pct": 35.84535017223595,
+   "minutes": 0.7153002937634786
+  },
+  {
+   "episode": 320,
+   "mean_reward": 7030.970564854109,
+   "mean_return_pct": 32.55942939014831,
+   "minutes": 0.7361013968785604
+  },
+  {
+   "episode": 328,
+   "mean_reward": 7316.026243322195,
+   "mean_return_pct": 34.68193252059638,
+   "minutes": 0.7558294971783955
+  },
+  {
+   "episode": 336,
+   "mean_reward": 7404.199107212852,
+   "mean_return_pct": 35.50691843036847,
+   "minutes": 0.7751775781313578
+  },
+  {
+   "episode": 344,
+   "mean_reward": 7305.665029758507,
+   "mean_return_pct": 32.86896353731639,
+   "minutes": 0.7956980148951213
+  },
+  {
+   "episode": 352,
+   "mean_reward": 7266.353257174352,
+   "mean_return_pct": 32.92448103524227,
+   "minutes": 0.8125611225763957
+  },
+  {
+   "episode": 360,
+   "mean_reward": 7454.064936785047,
+   "mean_return_pct": 33.781569438838716,
+   "minutes": 0.8319509426752726
+  },
+  {
+   "episode": 368,
+   "mean_reward": 8018.699767564163,
+   "mean_return_pct": 38.55478319150845,
+   "minutes": 0.8501252810160319
+  },
+  {
+   "episode": 376,
+   "mean_reward": 7581.971221329647,
+   "mean_return_pct": 34.78088002203051,
+   "minutes": 0.8743986090024313
+  },
+  {
+   "episode": 384,
+   "mean_reward": 7619.097423733446,
+   "mean_return_pct": 36.79705572629665,
+   "minutes": 0.890617040793101
+  },
+  {
+   "episode": 392,
+   "mean_reward": 7627.236910933936,
+   "mean_return_pct": 36.32916242441611,
+   "minutes": 0.9072782913843791
+  },
+  {
+   "episode": 400,
+   "mean_reward": 7689.276077738286,
+   "mean_return_pct": 37.68068177199827,
+   "minutes": 0.9257075111071269
+  },
+  {
+   "episode": 408,
+   "mean_reward": 8094.288596456732,
+   "mean_return_pct": 37.54778882105959,
+   "minutes": 0.9454526940981547
+  },
+  {
+   "episode": 416,
+   "mean_reward": 7713.095520607323,
+   "mean_return_pct": 36.830393377791424,
+   "minutes": 0.9626380880673726
+  },
+  {
+   "episode": 424,
+   "mean_reward": 4191.7870134057175,
+   "mean_return_pct": 35.124987927249805,
+   "minutes": 0.9792609055836995
+  },
+  {
+   "episode": 432,
+   "mean_reward": 8001.677503585934,
+   "mean_return_pct": 35.681488865274765,
+   "minutes": 1.0010429263114928
+  },
+  {
+   "episode": 440,
+   "mean_reward": 8177.788094603364,
+   "mean_return_pct": 38.128498980808786,
+   "minutes": 1.0172620217005413
+  },
+  {
+   "episode": 448,
+   "mean_reward": 8031.587499269879,
+   "mean_return_pct": 37.529093065225425,
+   "minutes": 1.0383984724680582
+  },
+  {
+   "episode": 456,
+   "mean_reward": 8004.171743877539,
+   "mean_return_pct": 37.966197642511595,
+   "minutes": 1.054719662666321
+  },
+  {
+   "episode": 464,
+   "mean_reward": 7844.768048035918,
+   "mean_return_pct": 36.28867382167622,
+   "minutes": 1.0711928049723307
+  },
+  {
+   "episode": 472,
+   "mean_reward": 8067.224845626756,
+   "mean_return_pct": 36.80312516642002,
+   "minutes": 1.092999275525411
+  },
+  {
+   "episode": 480,
+   "mean_reward": 8024.345770495738,
+   "mean_return_pct": 37.375415203338406,
+   "minutes": 1.116464098294576
+  },
+  {
+   "episode": 488,
+   "mean_reward": 7867.1310535675075,
+   "mean_return_pct": 37.28787280127045,
+   "minutes": 1.1384390910466513
+  },
+  {
+   "episode": 496,
+   "mean_reward": 8211.95930637055,
+   "mean_return_pct": 39.02556329671392,
+   "minutes": 1.157411555449168
+  },
+  {
+   "episode": 504,
+   "mean_reward": 8004.238734713099,
+   "mean_return_pct": 39.67254584783815,
+   "minutes": 1.1761207858721414
+  },
+  {
+   "episode": 512,
+   "mean_reward": 7777.5713061408005,
+   "mean_return_pct": 38.27614083255787,
+   "minutes": 1.197044801712036
+  },
+  {
+   "episode": 520,
+   "mean_reward": 7124.57242727204,
+   "mean_return_pct": 36.51609772043119,
+   "minutes": 1.2169901490211488
+  },
+  {
+   "episode": 528,
+   "mean_reward": 4398.627005388022,
+   "mean_return_pct": 34.095851373846855,
+   "minutes": 1.2358813722928366
+  },
+  {
+   "episode": 536,
+   "mean_reward": 8117.481104227624,
+   "mean_return_pct": 35.651312683120416,
+   "minutes": 1.2552229205767313
+  },
+  {
+   "episode": 544,
+   "mean_reward": 8326.942186273625,
+   "mean_return_pct": 37.5662739971822,
+   "minutes": 1.2762519359588622
+  },
+  {
+   "episode": 552,
+   "mean_reward": 8182.710362138987,
+   "mean_return_pct": 38.629524390867715,
+   "minutes": 1.292723786830902
+  },
+  {
+   "episode": 560,
+   "mean_reward": 8473.007178298283,
+   "mean_return_pct": 38.83881471227673,
+   "minutes": 1.3117886185646057
+  },
+  {
+   "episode": 568,
+   "mean_reward": 8287.843077193122,
+   "mean_return_pct": 36.78333972444583,
+   "minutes": 1.3348490715026855
+  },
+  {
+   "episode": 576,
+   "mean_reward": 8378.030636272357,
+   "mean_return_pct": 39.1043248532701,
+   "minutes": 1.3607566396395365
+  },
+  {
+   "episode": 584,
+   "mean_reward": 4553.105630569492,
+   "mean_return_pct": 35.2246199404812,
+   "minutes": 1.3795757333437602
+  },
+  {
+   "episode": 592,
+   "mean_reward": 8537.092734832382,
+   "mean_return_pct": 40.433586034826504,
+   "minutes": 1.3976019303003946
+  },
+  {
+   "episode": 600,
+   "mean_reward": 8344.277312515067,
+   "mean_return_pct": 38.87535645999286,
+   "minutes": 1.4151411612828573
+  },
+  {
+   "episode": 608,
+   "mean_reward": 8554.799748735357,
+   "mean_return_pct": 40.20058940129903,
+   "minutes": 1.4354971925417581
+  },
+  {
+   "episode": 616,
+   "mean_reward": 8560.183728362656,
+   "mean_return_pct": 39.46409930510009,
+   "minutes": 1.4533963243166605
+  },
+  {
+   "episode": 624,
+   "mean_reward": 2010.1711528052333,
+   "mean_return_pct": 32.691307616944805,
+   "minutes": 1.4708491802215575
+  },
+  {
+   "episode": 632,
+   "mean_reward": 4877.575308148866,
+   "mean_return_pct": 35.53784014499213,
+   "minutes": 1.4888901511828105
+  },
+  {
+   "episode": 640,
+   "mean_reward": 8481.890114843722,
+   "mean_return_pct": 40.45279718176755,
+   "minutes": 1.5062375664710999
+  },
+  {
+   "episode": 648,
+   "mean_reward": 8536.569778512197,
+   "mean_return_pct": 39.54431915353058,
+   "minutes": 1.5250519633293151
+  },
+  {
+   "episode": 656,
+   "mean_reward": 8335.863781091586,
+   "mean_return_pct": 36.72542497540486,
+   "minutes": 1.5408257722854615
+  },
+  {
+   "episode": 664,
+   "mean_reward": 8550.84331327933,
+   "mean_return_pct": 40.28577798203644,
+   "minutes": 1.5574866731961567
+  },
+  {
+   "episode": 672,
+   "mean_reward": 8811.90089851762,
+   "mean_return_pct": 41.251974120928615,
+   "minutes": 1.574296979109446
+  },
+  {
+   "episode": 680,
+   "mean_reward": 8851.493262727241,
+   "mean_return_pct": 39.623363551120484,
+   "minutes": 1.5949790914853414
+  },
+  {
+   "episode": 688,
+   "mean_reward": 8560.559395610551,
+   "mean_return_pct": 40.974314223994554,
+   "minutes": 1.6141126950581868
+  },
+  {
+   "episode": 696,
+   "mean_reward": 8735.757079751003,
+   "mean_return_pct": 40.79826462172089,
+   "minutes": 1.63225919008255
+  },
+  {
+   "episode": 704,
+   "mean_reward": 8820.293116045214,
+   "mean_return_pct": 40.598910086127304,
+   "minutes": 1.6531729499499004
+  },
+  {
+   "episode": 712,
+   "mean_reward": -3694.4232423137646,
+   "mean_return_pct": 28.28694163749354,
+   "minutes": 1.6711747288703918
+  },
+  {
+   "episode": 720,
+   "mean_reward": 4862.585072283546,
+   "mean_return_pct": 36.41184149351978,
+   "minutes": 1.6899640838305154
+  },
+  {
+   "episode": 728,
+   "mean_reward": 8955.122832710986,
+   "mean_return_pct": 40.74134102065335,
+   "minutes": 1.7057501395543417
+  },
+  {
+   "episode": 736,
+   "mean_reward": 8651.772159759397,
+   "mean_return_pct": 39.907402444003466,
+   "minutes": 1.7217525959014892
+  },
+  {
+   "episode": 744,
+   "mean_reward": 2697.604086843046,
+   "mean_return_pct": 34.54887263870437,
+   "minutes": 1.7395087798436484
+  },
+  {
+   "episode": 752,
+   "mean_reward": 8879.722769660824,
+   "mean_return_pct": 38.949993208895535,
+   "minutes": 1.7577040155728658
+  },
+  {
+   "episode": 760,
+   "mean_reward": 8795.593324494199,
+   "mean_return_pct": 39.64111334055538,
+   "minutes": 1.7763642390569052
+  },
+  {
+   "episode": 768,
+   "mean_reward": 2660.146944017183,
+   "mean_return_pct": 33.933117562485165,
+   "minutes": 1.7946675419807434
+  },
+  {
+   "episode": 776,
+   "mean_reward": 8810.306316533733,
+   "mean_return_pct": 40.48878915950536,
+   "minutes": 1.8125856200853983
+  },
+  {
+   "episode": 784,
+   "mean_reward": 8872.388266545622,
+   "mean_return_pct": 40.93570266384137,
+   "minutes": 1.8318700551986695
+  },
+  {
+   "episode": 792,
+   "mean_reward": 9080.653807154275,
+   "mean_return_pct": 41.33771028190733,
+   "minutes": 1.851937218507131
+  },
+  {
+   "episode": 800,
+   "mean_reward": 2772.0227480571,
+   "mean_return_pct": 34.96747627376128,
+   "minutes": 1.86955224275589
+  },
+  {
+   "episode": 808,
+   "mean_reward": -3803.065151490023,
+   "mean_return_pct": 26.454002033477398,
+   "minutes": 1.8885200897852579
+  },
+  {
+   "episode": 816,
+   "mean_reward": 9072.634582052473,
+   "mean_return_pct": 40.477391724218805,
+   "minutes": 1.9049074172973632
+  },
+  {
+   "episode": 824,
+   "mean_reward": 9053.686770739674,
+   "mean_return_pct": 40.97234258476794,
+   "minutes": 1.9237123330434163
+  },
+  {
+   "episode": 832,
+   "mean_reward": 8885.286594675827,
+   "mean_return_pct": 40.7963453172094,
+   "minutes": 1.9409541606903076
+  },
+  {
+   "episode": 840,
+   "mean_reward": 8969.504800049679,
+   "mean_return_pct": 40.88414026894874,
+   "minutes": 1.9592284282048544
+  },
+  {
+   "episode": 848,
+   "mean_reward": 9110.607764445953,
+   "mean_return_pct": 41.576198921901955,
+   "minutes": 1.9807252287864685
+  },
+  {
+   "episode": 856,
+   "mean_reward": 6967.795201423287,
+   "mean_return_pct": 40.42211575428791,
+   "minutes": 1.9998328765233357
+  },
+  {
+   "episode": 864,
+   "mean_reward": 5249.898896896839,
+   "mean_return_pct": 37.861083987568364,
+   "minutes": 2.0157604734102885
+  },
+  {
+   "episode": 872,
+   "mean_reward": 9141.567824177238,
+   "mean_return_pct": 41.73616943110749,
+   "minutes": 2.0332474668820697
+  },
+  {
+   "episode": 880,
+   "mean_reward": 5206.702561856496,
+   "mean_return_pct": 38.051628408165115,
+   "minutes": 2.0502636313438414
+  },
+  {
+   "episode": 888,
+   "mean_reward": 8860.368387662935,
+   "mean_return_pct": 38.90565329665785,
+   "minutes": 2.0668505787849427
+  },
+  {
+   "episode": 896,
+   "mean_reward": 9158.835340087047,
+   "mean_return_pct": 41.47678887501471,
+   "minutes": 2.0836882750193277
+  },
+  {
+   "episode": 904,
+   "mean_reward": 9349.086462494688,
+   "mean_return_pct": 43.235401577918665,
+   "minutes": 2.1036611159642535
+  },
+  {
+   "episode": 912,
+   "mean_reward": 3102.043158653315,
+   "mean_return_pct": 35.08072611563308,
+   "minutes": 2.123232436180115
+  },
+  {
+   "episode": 920,
+   "mean_reward": 9299.892785530174,
+   "mean_return_pct": 43.122880115576066,
+   "minutes": 2.141021990776062
+  },
+  {
+   "episode": 928,
+   "mean_reward": 9385.470139194947,
+   "mean_return_pct": 41.47292070454175,
+   "minutes": 2.158304794629415
+  },
+  {
+   "episode": 936,
+   "mean_reward": 9548.496752618306,
+   "mean_return_pct": 43.52038118183202,
+   "minutes": 2.1761835058530172
+  },
+  {
+   "episode": 944,
+   "mean_reward": 9403.845276688018,
+   "mean_return_pct": 43.357360149962545,
+   "minutes": 2.1946157495180767
+  },
+  {
+   "episode": 952,
+   "mean_reward": 9451.61773956136,
+   "mean_return_pct": 43.78193286219535,
+   "minutes": 2.212851397196452
+  },
+  {
+   "episode": 960,
+   "mean_reward": 3017.4589771067886,
+   "mean_return_pct": 35.428127750309706,
+   "minutes": 2.2307225187619526
+  },
+  {
+   "episode": 968,
+   "mean_reward": 3179.976672153953,
+   "mean_return_pct": 37.70297074032498,
+   "minutes": 2.248634167512258
+  },
+  {
+   "episode": 976,
+   "mean_reward": -810.5989268391063,
+   "mean_return_pct": 32.64638932216485,
+   "minutes": 2.268187967936198
+  },
+  {
+   "episode": 984,
+   "mean_reward": 9338.007767987065,
+   "mean_return_pct": 42.16086600946526,
+   "minutes": 2.2874862432479857
+  },
+  {
+   "episode": 992,
+   "mean_reward": 9511.12428903194,
+   "mean_return_pct": 43.24349389711528,
+   "minutes": 2.304642935593923
+  },
+  {
+   "episode": 1000,
+   "mean_reward": 5647.358959598266,
+   "mean_return_pct": 38.66994861533877,
+   "minutes": 2.322035018603007
+  },
+  {
+   "episode": 1008,
+   "mean_reward": 9778.94980165024,
+   "mean_return_pct": 44.02656736413587,
+   "minutes": 2.3405062516530353
+  },
+  {
+   "episode": 1016,
+   "mean_reward": 9387.812730616404,
+   "mean_return_pct": 41.84395142661075,
+   "minutes": 2.36191995938619
+  },
+  {
+   "episode": 1024,
+   "mean_reward": 3112.9289344372414,
+   "mean_return_pct": 35.34153963564176,
+   "minutes": 2.380285620689392
+  },
+  {
+   "episode": 1032,
+   "mean_reward": 2993.1184573931464,
+   "mean_return_pct": 34.894882841477504,
+   "minutes": 2.398922022183736
+  },
+  {
+   "episode": 1040,
+   "mean_reward": 9602.725753278284,
+   "mean_return_pct": 42.95344804460569,
+   "minutes": 2.4179025014241535
+  },
+  {
+   "episode": 1048,
+   "mean_reward": 9330.852885351454,
+   "mean_return_pct": 40.93144829674662,
+   "minutes": 2.436794277032216
+  },
+  {
+   "episode": 1056,
+   "mean_reward": 3228.672610338065,
+   "mean_return_pct": 35.02893255750074,
+   "minutes": 2.454732422033946
+  },
+  {
+   "episode": 1064,
+   "mean_reward": 9264.6683566972,
+   "mean_return_pct": 41.28618299579851,
+   "minutes": 2.4706278165181477
+  },
+  {
+   "episode": 1072,
+   "mean_reward": 9636.099746441187,
+   "mean_return_pct": 43.27318870207804,
+   "minutes": 2.4878984729448956
+  },
+  {
+   "episode": 1080,
+   "mean_reward": 9661.525559407328,
+   "mean_return_pct": 43.82650130998828,
+   "minutes": 2.5041784087816876
+  },
+  {
+   "episode": 1088,
+   "mean_reward": 9487.40229847129,
+   "mean_return_pct": 42.55072394458178,
+   "minutes": 2.5213690559069315
+  },
+  {
+   "episode": 1096,
+   "mean_reward": 9294.978313198622,
+   "mean_return_pct": 41.92860673338883,
+   "minutes": 2.539544932047526
+  },
+  {
+   "episode": 1104,
+   "mean_reward": 9597.917029796368,
+   "mean_return_pct": 43.90839645323327,
+   "minutes": 2.557951056957245
+  },
+  {
+   "episode": 1112,
+   "mean_reward": 9438.353426032656,
+   "mean_return_pct": 42.113794692240916,
+   "minutes": 2.5756930112838745
+  },
+  {
+   "episode": 1120,
+   "mean_reward": 9705.354300830759,
+   "mean_return_pct": 43.357173000437236,
+   "minutes": 2.594169529279073
+  },
+  {
+   "episode": 1128,
+   "mean_reward": 3328.928920533465,
+   "mean_return_pct": 36.29806290314518,
+   "minutes": 2.6162882367769877
+  },
+  {
+   "episode": 1136,
+   "mean_reward": 9446.45659060478,
+   "mean_return_pct": 42.56293968459844,
+   "minutes": 2.6344818353652952
+  },
+  {
+   "episode": 1144,
+   "mean_reward": 9565.632267390774,
+   "mean_return_pct": 42.15072730801786,
+   "minutes": 2.6542160391807554
+  },
+  {
+   "episode": 1152,
+   "mean_reward": 9755.631982866378,
+   "mean_return_pct": 42.779502487658064,
+   "minutes": 2.6739517052968345
+  },
+  {
+   "episode": 1160,
+   "mean_reward": 9712.866092259803,
+   "mean_return_pct": 43.752744178452716,
+   "minutes": 2.6897882262865704
+  },
+  {
+   "episode": 1168,
+   "mean_reward": 3413.2185417762184,
+   "mean_return_pct": 35.58551969817366,
+   "minutes": 2.705533476670583
+  },
+  {
+   "episode": 1176,
+   "mean_reward": 10132.53169181263,
+   "mean_return_pct": 43.35487238971667,
+   "minutes": 2.7215152541796366
+  },
+  {
+   "episode": 1184,
+   "mean_reward": 9623.405973074368,
+   "mean_return_pct": 42.01283088094463,
+   "minutes": 2.7418039560317995
+  },
+  {
+   "episode": 1192,
+   "mean_reward": 9807.811532960193,
+   "mean_return_pct": 42.11388235471358,
+   "minutes": 2.76194828748703
+  },
+  {
+   "episode": 1200,
+   "mean_reward": 9838.758452086207,
+   "mean_return_pct": 43.035695662522166,
+   "minutes": 2.7798847476641337
+  },
+  {
+   "episode": 1208,
+   "mean_reward": 9719.126873482146,
+   "mean_return_pct": 42.90936396664499,
+   "minutes": 2.79683141708374
+  },
+  {
+   "episode": 1216,
+   "mean_reward": 9944.319266768372,
+   "mean_return_pct": 42.29648708078504,
+   "minutes": 2.814394489924113
+  },
+  {
+   "episode": 1224,
+   "mean_reward": 9849.387145641762,
+   "mean_return_pct": 44.37524225790735,
+   "minutes": 2.832471474011739
+  },
+  {
+   "episode": 1232,
+   "mean_reward": 10270.037980881209,
+   "mean_return_pct": 44.44707826015057,
+   "minutes": 2.8508998274803163
+  },
+  {
+   "episode": 1240,
+   "mean_reward": 9791.887155945627,
+   "mean_return_pct": 42.57245701166645,
+   "minutes": 2.8693796475728353
+  },
+  {
+   "episode": 1248,
+   "mean_reward": 10018.235948327816,
+   "mean_return_pct": 41.6527578949655,
+   "minutes": 2.8885054349899293
+  },
+  {
+   "episode": 1256,
+   "mean_reward": 9893.434360892512,
+   "mean_return_pct": 42.28467928877807,
+   "minutes": 2.904277424017588
+  },
+  {
+   "episode": 1264,
+   "mean_reward": 9897.75502786745,
+   "mean_return_pct": 42.47289025259872,
+   "minutes": 2.9244821389516193
+  },
+  {
+   "episode": 1272,
+   "mean_reward": 9880.901166601492,
+   "mean_return_pct": 42.23187589691629,
+   "minutes": 2.944020422299703
+  },
+  {
+   "episode": 1280,
+   "mean_reward": 3579.626368544757,
+   "mean_return_pct": 36.50745876987931,
+   "minutes": 2.9625202496846517
+  },
+  {
+   "episode": 1288,
+   "mean_reward": 3512.461320266474,
+   "mean_return_pct": 36.176047835885804,
+   "minutes": 2.980785652001699
+  },
+  {
+   "episode": 1296,
+   "mean_reward": 10207.625389824258,
+   "mean_return_pct": 42.93020106632601,
+   "minutes": 2.998022226492564
+  },
+  {
+   "episode": 1304,
+   "mean_reward": 10039.094290865982,
+   "mean_return_pct": 43.23550033505897,
+   "minutes": 3.0172732909520468
+  },
+  {
+   "episode": 1312,
+   "mean_reward": 3620.908417525852,
+   "mean_return_pct": 35.29081729686714,
+   "minutes": 3.034803068637848
+  },
+  {
+   "episode": 1320,
+   "mean_reward": 3583.193534168498,
+   "mean_return_pct": 35.87361413002855,
+   "minutes": 3.0507076422373456
+  },
+  {
+   "episode": 1328,
+   "mean_reward": 9968.072080563841,
+   "mean_return_pct": 42.84883781020689,
+   "minutes": 3.0668209910392763
+  },
+  {
+   "episode": 1336,
+   "mean_reward": 10076.85353026359,
+   "mean_return_pct": 43.626879480493926,
+   "minutes": 3.0828131715456646
+  },
+  {
+   "episode": 1344,
+   "mean_reward": 9898.22810736962,
+   "mean_return_pct": 41.256117395364434,
+   "minutes": 3.1007797280947367
+  },
+  {
+   "episode": 1352,
+   "mean_reward": 3750.577993687489,
+   "mean_return_pct": 34.99378574526737,
+   "minutes": 3.117856915791829
+  },
+  {
+   "episode": 1360,
+   "mean_reward": 10177.93017095657,
+   "mean_return_pct": 43.428106977004376,
+   "minutes": 3.1355756243069965
+  },
+  {
+   "episode": 1368,
+   "mean_reward": 9900.093763589346,
+   "mean_return_pct": 41.106340039067234,
+   "minutes": 3.157425852616628
+  },
+  {
+   "episode": 1376,
+   "mean_reward": 10087.44316354422,
+   "mean_return_pct": 43.74830419464858,
+   "minutes": 3.17643270889918
+  },
+  {
+   "episode": 1384,
+   "mean_reward": 9831.578109522536,
+   "mean_return_pct": 41.537898012442845,
+   "minutes": 3.1943835655848187
+  },
+  {
+   "episode": 1392,
+   "mean_reward": 10310.760610130295,
+   "mean_return_pct": 44.13094592435631,
+   "minutes": 3.2122534036636354
+  },
+  {
+   "episode": 1400,
+   "mean_reward": 10276.238017830832,
+   "mean_return_pct": 42.31950858914132,
+   "minutes": 3.231654651959737
+  },
+  {
+   "episode": 1408,
+   "mean_reward": 10232.01350584093,
+   "mean_return_pct": 43.935337663874066,
+   "minutes": 3.2484997471173602
+  },
+  {
+   "episode": 1416,
+   "mean_reward": 10181.599740125988,
+   "mean_return_pct": 43.84841714712417,
+   "minutes": 3.266310675938924
+  },
+  {
+   "episode": 1424,
+   "mean_reward": 10251.390089221271,
+   "mean_return_pct": 43.503646846451666,
+   "minutes": 3.283326796690623
+  },
+  {
+   "episode": 1432,
+   "mean_reward": 10291.32493075369,
+   "mean_return_pct": 44.92730452597039,
+   "minutes": 3.300074052810669
+  },
+  {
+   "episode": 1440,
+   "mean_reward": 9925.952591631345,
+   "mean_return_pct": 42.7653721145689,
+   "minutes": 3.323390014966329
+  },
+  {
+   "episode": 1448,
+   "mean_reward": 10024.144630080744,
+   "mean_return_pct": 43.144345231838855,
+   "minutes": 3.345045272509257
+  },
+  {
+   "episode": 1456,
+   "mean_reward": 10244.71473605365,
+   "mean_return_pct": 43.27796517547327,
+   "minutes": 3.3671737988789876
+  },
+  {
+   "episode": 1464,
+   "mean_reward": 10512.211502739132,
+   "mean_return_pct": 46.095591203890564,
+   "minutes": 3.384639004866282
+  },
+  {
+   "episode": 1472,
+   "mean_reward": 10169.70766870061,
+   "mean_return_pct": 44.271220843797344,
+   "minutes": 3.4015963355700176
+  },
+  {
+   "episode": 1480,
+   "mean_reward": 10364.926504838295,
+   "mean_return_pct": 42.67353111271809,
+   "minutes": 3.419000494480133
+  },
+  {
+   "episode": 1488,
+   "mean_reward": 10176.14461649664,
+   "mean_return_pct": 44.521886976401746,
+   "minutes": 3.437433071931203
+  },
+  {
+   "episode": 1496,
+   "mean_reward": 3953.5521295363214,
+   "mean_return_pct": 37.66742152741575,
+   "minutes": 3.4533954858779907
+  },
+  {
+   "episode": 1504,
+   "mean_reward": 10518.730878593424,
+   "mean_return_pct": 44.959508988549366,
+   "minutes": 3.46946146885554
+  },
+  {
+   "episode": 1512,
+   "mean_reward": 10223.497661120873,
+   "mean_return_pct": 43.5440670564048,
+   "minutes": 3.4860859076182047
+  },
+  {
+   "episode": 1520,
+   "mean_reward": 3866.8703223012626,
+   "mean_return_pct": 37.04514855292832,
+   "minutes": 3.5031670053799946
+  },
+  {
+   "episode": 1528,
+   "mean_reward": 10588.834516689833,
+   "mean_return_pct": 44.48659374375194,
+   "minutes": 3.5254032651583356
+  },
+  {
+   "episode": 1536,
+   "mean_reward": 10386.090104323228,
+   "mean_return_pct": 44.92009058328989,
+   "minutes": 3.5461859027544658
+  },
+  {
+   "episode": 1544,
+   "mean_reward": 3908.6905979422927,
+   "mean_return_pct": 36.72465440694212,
+   "minutes": 3.5640506903330484
+  },
+  {
+   "episode": 1552,
+   "mean_reward": 4044.0195275863925,
+   "mean_return_pct": 37.610221143586955,
+   "minutes": 3.586606248219808
+  },
+  {
+   "episode": 1560,
+   "mean_reward": 10496.258673235843,
+   "mean_return_pct": 44.075126169728335,
+   "minutes": 3.6064566453297933
+  },
+  {
+   "episode": 1568,
+   "mean_reward": 4116.5223494102775,
+   "mean_return_pct": 37.954354011808455,
+   "minutes": 3.624294364452362
+  },
+  {
+   "episode": 1576,
+   "mean_reward": 10505.194521651552,
+   "mean_return_pct": 45.33871567776975,
+   "minutes": 3.6423624674479167
+  },
+  {
+   "episode": 1584,
+   "mean_reward": 10526.707790644961,
+   "mean_return_pct": 43.326623979057,
+   "minutes": 3.6642430384953815
+  },
+  {
+   "episode": 1592,
+   "mean_reward": 4077.004133150119,
+   "mean_return_pct": 37.020947871178535,
+   "minutes": 3.6813281337420145
+  },
+  {
+   "episode": 1600,
+   "mean_reward": 10370.374442538463,
+   "mean_return_pct": 44.049593981878544,
+   "minutes": 3.6995061596234637
+  }
+ ],
+ "test": {
+  "start": "2020-04-01",
+  "end": "2025-04-30",
+  "days": 1323,
+  "total_return_pct": 9.181177049276723,
+  "max_drawdown_pct": 0.980466149667869,
+  "trades": 435,
+  "buys": 843,
+  "win_rate_pct": 81.14942528735632,
+  "best_trade_pct": 1.466865502748771,
+  "worst_trade_pct": -0.588970477019779,
+  "sum_trade_pct": 79.52419222053184,
+  "time_in_market_pct": 63.767019667170956,
+  "sharpe_ann": 1.4427134401287196,
+  "action_counts": [
+   0,
+   843,
+   479
+  ],
+  "buy_hold_pct": 6.91929056977294
+ },
+ "train_eval": {
+  "start": "2004-07-19",
+  "end": "2020-03-31",
+  "days": 3649,
+  "total_return_pct": 48.91854435157623,
+  "max_drawdown_pct": 2.0411717742949476,
+  "trades": 1076,
+  "buys": 2294,
+  "win_rate_pct": 81.13382899628253,
+  "best_trade_pct": 4.074210851562876,
+  "worst_trade_pct": -0.8835928585732122,
+  "sum_trade_pct": 409.8917612771246,
+  "time_in_market_pct": 62.88377192982456,
+  "sharpe_ann": 1.5989521402256253,
+  "action_counts": [
+   0,
+   2294,
+   1354
+  ],
+  "buy_hold_pct": -8.063925606399502
+ }
+}
