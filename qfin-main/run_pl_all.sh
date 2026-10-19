@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# PennyLane 版：一次跑完兩個實驗（在 Linux／WSL2 的 Ubuntu 執行）。
-# 用法：bash run_pl_all.sh [CPU 核心數，預設 16]
 set -euo pipefail
 CORES="${1:-16}"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1

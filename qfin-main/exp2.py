@@ -1,12 +1,3 @@
-"""實驗二：重現 Globecom Wkshps 2025《Quantum-Enhanced Forecasting for Deep Reinforcement Learning in
-Algorithmic Trading》：QLSTM 預測 USD/TWD 5 日趨勢 → 機率加進狀態 → QA3C（量子 A3C）交易代理，只做多。
-
-階段：
-  python3 exp2.py qlstm  --seeds 3        # 訓練 QLSTM 分類器（論文：測試準確率約 71.5%）
-  python3 exp2.py rl --agent QA3C --seeds 3 --episodes 1600
-  python3 exp2.py rl --agent A3C  --seeds 3 --episodes 1600
-  python3 exp2.py report
-"""
 from __future__ import annotations
 
 import argparse
@@ -25,13 +16,8 @@ TRAIN_START, TRAIN_END = "2000-01-01", "2020-03-31"
 TEST_START, TEST_END = "2020-04-01", "2025-04-30"
 OUT = RES / "exp2"
 
-# ---------------------------------------------------------------- 資料
-
 
 def load_data():
-    """論文：依時間排序、去重複、去掉收盤為空或 0 的列；MA5/10/20/60 與 20 日波動。
-    資料清理：Yahoo 的 USD/TWD 有離譜的錯誤報價（例如 2011-10-26 單日 +1571%），和前後兩天的平均差 25% 以上的列
-    視為錯誤報價拿掉（反覆檢查直到沒有）；論文的資料從 2000 年開始，應該不是 Yahoo（Yahoo 從 2004-03 才有）。"""
     df = load_ohlc("TWD_X").loc[TRAIN_START:TEST_END].copy()
     removed = []
     for _ in range(10):
@@ -46,21 +32,18 @@ def load_data():
     for n in (5, 10, 20, 60):
         df[f"MA{n}"] = c.rolling(n).mean()
     df["VOL20"] = c.pct_change().rolling(20).std()
-    # 「20 日相對波動」：20 日波動 ÷ 過去一年 20 日波動的平均（論文未定義，此處的定義）
     df["VOLREL"] = df["VOL20"] / df["VOL20"].rolling(252, min_periods=60).mean()
     df = df.dropna()
     return df, removed
 
 
-SCALE = "train"  # train＝只用訓練期間估計 min–max；full＝用全期間（論文可能的做法，會偷看測試期間的範圍）
+SCALE = "train"
 IN_COLS = ["Open", "High", "Low", "Close", "MA5", "MA10"]
 SEQ = 4
 THR = 0.012
 
 
 def qlstm_dataset(df):
-    """輸入：最近 4 天 × (O, H, L, C, MA5, MA10)，min–max 縮放到 [0,1]（只用訓練期間估計尺度）。
-    標籤：5 日後上漲超過 1.2% → 1、下跌超過 1.2% → 0，中間的不用。"""
     is_tr = df.index <= TRAIN_END
     raw = df[IN_COLS].to_numpy()
     ref = raw[is_tr] if SCALE == "train" else raw
@@ -76,7 +59,7 @@ def qlstm_dataset(df):
     lab = np.where(fwd > THR, 1, np.where(fwd < -THR, 0, -1))
     idx = np.arange(n)
     tr_last = np.where(is_tr)[0].max()
-    tr = (idx >= SEQ - 1) & (idx + 5 <= tr_last) & (lab >= 0)  # 標籤要完全落在訓練期間內
+    tr = (idx >= SEQ - 1) & (idx + 5 <= tr_last) & (lab >= 0)
     te = (~is_tr) & (idx + 5 < n) & (lab >= 0)
     return Xall, lab, tr, te
 
@@ -86,7 +69,6 @@ def SUFFIX():
 
 
 def weighted_ce(logits, y, w):
-    """torch.nn.CrossEntropyLoss(weight=w)：sum(w_y · −log p_y) / sum(w_y)。"""
     lp = log_softmax(logits)
     pick = getitem(lp, (np.arange(len(y)), y))
     wy = w[y]
@@ -100,8 +82,6 @@ def softmax_np(z):
 
 
 def train_qlstm(seed, kind="QLSTM", epochs=50, batch=32, lr=5e-3):
-    """論文：hidden 2、dense-softmax 輸出、50 epochs、RMSprop lr 5e-3、weighted cross-entropy。
-    batch size 論文未說明，此處用 32。"""
     df, removed = load_data()
     Xall, lab, tr, te = qlstm_dataset(df)
     rng = np.random.default_rng(seed)
@@ -127,7 +107,6 @@ def train_qlstm(seed, kind="QLSTM", epochs=50, batch=32, lr=5e-3):
         hist.append({"epoch": ep + 1, "loss": tot / len(Xtr),
                      "train_acc": float(np.mean(ptr.argmax(1) == ytr)),
                      "test_acc": float(np.mean(pte.argmax(1) == lab[te]))})
-    # 每天都要有機率給 RL 用（凍結的模型、只用最近 4 天）
     valid = np.arange(len(df)) >= SEQ - 1
     probs = np.full((len(df), 2), 0.5)
     probs[valid] = softmax_np(model(Xall[valid]).data)
@@ -150,15 +129,7 @@ def train_qlstm(seed, kind="QLSTM", epochs=50, batch=32, lr=5e-3):
     return res
 
 
-# ---------------------------------------------------------------- 交易環境（論文 Table I～III）
-
-
 class Env:
-    """向量化的交易環境：W 個 worker 在同一段價格上各自交易。
-    動作：0 持有、1 現金足夠就買 1 單位、2 全部賣出；只做多、可加碼。
-    獎勵：r = −0.02 + 進場 + 出場 + 持有，截斷在 [−15, 30]（pnl 以百分比為單位）。
-    論文未說明的細節（本實作的設定）：初始資金 = 10 單位（10 × 期初價格）；無效動作罰 −0.1；
-    虧損出場 −2 − 10×|pnl%|（論文表格寫 −2 − 10×pnl%，對虧損來說會變成獎勵，應是筆誤）。"""
 
     def __init__(self, df, probs, W):
         self.p = df["Close"].to_numpy()
@@ -223,15 +194,7 @@ class Env:
         return r, done
 
 
-# ---------------------------------------------------------------- 代理人
-
-
 class QNet:
-    """QA3C：狀態 → tanh(Linear 10→8) → 8-qubit VQC → Linear 頭。actor、critic 各一個 VQC。
-    論文：244 個參數（量子 32、古典 212）。212 = 2×Linear(10→8) 176 + Linear(8→3) 27 + Linear(8→1) 9，
-    所以是 actor、critic 各自一組投影 + VQC，每個 VQC 16 個量子參數。
-    VQC（論文細節不完整，本實作採用符合「8 qubits、深度 2、angle encoding、可訓練 Ry 與 Rz、CNOT」）：
-    |+> 起始 → Ry(x_i) 編碼 → [CNOT 環 → Rz(w1_i)] → [CNOT 環 → Ry(w2_i)] → 量測 8 條線的 <Z>。"""
 
     def __init__(self, rng, s_dim=10, a_dim=3, nq=8):
         ops, k = [], 0
@@ -265,8 +228,6 @@ class QNet:
 
 
 class CNet:
-    """古典 A3C（MorvanZhou/pytorch-A3C 的結構）：actor 10→128→3、critic 10→128→1，tanh。
-    參數 = 3332，和論文的古典 A3C 一樣。"""
 
     def __init__(self, rng, s_dim=10, a_dim=3, h=128):
         self.pi1, self.pi2 = Linear(rng, s_dim, h), Linear(rng, h, a_dim)
@@ -286,7 +247,6 @@ AGENTS = {"QA3C": QNet, "A3C": CNet}
 
 
 def a3c_loss(net, S, A, Vt, beta):
-    """MorvanZhou A3C 的損失＋熵正則：L = td² − log π(a|s)·td(停止梯度) − β·H(π)。"""
     v = net.value(S)
     td = T(Vt[:, None]) - v
     lp = log_softmax(net.logits(S))
@@ -300,10 +260,6 @@ def a3c_loss(net, S, A, Vt, beta):
 
 def train_rl(agent, seed, episodes, probs_kind="QLSTM", probs_seed=0, W=8, n_step=30, gamma=0.995, beta=0.05,
              lr=1e-5, log_every=8):
-    """論文：8 個 worker、rollout 長度 30、Shared Adam lr 1e-5、γ=0.995、β=0.05。
-    實作方式：A3C 原本是 8 個行程非同步更新；這裡 8 個 worker 同步收集資料（快很多），
-    但仍然「每個 worker 各自計算梯度、依序更新共享參數」——每收集 30 步就有 8 次更新，和 A3C 相同。
-    一個 episode = 跑完整個訓練期間一次（論文沒定義）；episodes 計的是全部 worker 加總（同 MorvanZhou 的 MAX_EP）。"""
     df, _ = load_data()
     pr = pd.read_csv(OUT / f"probs_{probs_kind}_s{probs_seed}.csv", parse_dates=["date"]).set_index("date")
     probs = pr.loc[df.index, ["p_down", "p_up"]].to_numpy()
@@ -312,7 +268,7 @@ def train_rl(agent, seed, episodes, probs_kind="QLSTM", probs_seed=0, W=8, n_ste
     dte, pte = df[~tr_mask], probs[~tr_mask]
     rng = np.random.default_rng(seed)
     net = AGENTS[agent](rng)
-    opt = Adam(net.params(), lr, b1=0.92, b2=0.999)  # MorvanZhou SharedAdam 的 betas
+    opt = Adam(net.params(), lr, b1=0.92, b2=0.999)
     env = Env(dtr, ptr, W)
     log = []
     t0 = time.time()
@@ -360,7 +316,6 @@ def train_rl(agent, seed, episodes, probs_kind="QLSTM", probs_seed=0, W=8, n_ste
 
 
 def evaluate(net, d, p):
-    """測試：每一步選機率最高的動作（貪婪）。期末以收盤價計算資產（不額外交易）。"""
     env = Env(d, p, 1)
     s = env.reset()
     done = False

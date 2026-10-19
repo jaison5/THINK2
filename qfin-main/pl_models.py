@@ -1,5 +1,3 @@
-"""PennyLane + PyTorch 版的模型（照論文使用的工具：lightning.qubit + adjoint 微分）。
-電路結構和 numpy 版（models.py、exp2.QNet）完全相同，pl_check.py 會逐一核對輸出與梯度。"""
 from __future__ import annotations
 
 import pennylane as qml
@@ -7,9 +5,9 @@ import torch
 import torch.nn as nn
 
 torch.set_default_dtype(torch.float64)
-DEVICE = "lightning.qubit"   # 可改成 "default.qubit"
-DIFF = "adjoint"             # 論文的設定；遇到版本問題可改成 "best"
-VJP = False                  # PennyLane 預設：adjoint 在前向就把梯度算好；True（device_vjp）則改在反向才用 adjoint 算 VJP
+DEVICE = "lightning.qubit"
+DIFF = "adjoint"
+VJP = False
 
 
 def configure(device: str = None, diff: str = None, device_vjp: bool = None):
@@ -19,11 +17,7 @@ def configure(device: str = None, diff: str = None, device_vjp: bool = None):
     VJP = VJP if device_vjp is None else device_vjp
 
 
-# ---------------------------------------------------------------- 電路
-
-
 def qlstm_gate_qnode(nq: int, H: int, depth: int = 1):
-    """QLSTM 一個閘門的 VQC：|+> 起始 → Ry(輸入) 編碼 → [even-odd CNOT 階梯 → 每條線 Ry(權重)] × depth → 量測前 H 條線 <Z>。"""
     dev = qml.device(DEVICE, wires=nq)
 
     @qml.qnode(dev, interface="torch", diff_method=DIFF, device_vjp=VJP)
@@ -44,7 +38,6 @@ def qlstm_gate_qnode(nq: int, H: int, depth: int = 1):
 
 
 def qfwp_qnode(nq: int = 3, D: int = 1, A: int = 1):
-    """QFWP 的 VQC：|0> 起始 → Ry(z_t) 編碼 → [CNOT 鏈 → Ry(Θ_t)] × D → 量測前 A 條線。Θ_t 由慢程式產生（不是可訓練權重）。"""
     dev = qml.device(DEVICE, wires=nq)
 
     @qml.qnode(dev, interface="torch", diff_method=DIFF, device_vjp=VJP)
@@ -62,7 +55,6 @@ def qfwp_qnode(nq: int = 3, D: int = 1, A: int = 1):
 
 
 def qa3c_qnode(nq: int = 8):
-    """QA3C 的 VQC：|+> 起始 → Ry(x) 編碼 → [CNOT 環 → Rz(w0)] → [CNOT 環 → Ry(w1)] → 量測 8 條線 <Z>。"""
     dev = qml.device(DEVICE, wires=nq)
 
     @qml.qnode(dev, interface="torch", diff_method=DIFF, device_vjp=VJP)
@@ -89,12 +81,7 @@ def _col(out, B):
     return out.reshape(B, -1)
 
 
-# ---------------------------------------------------------------- 實驗一的模型
-
-
 class QLSTM(nn.Module):
-    """論文：輸入 4、H=3、7 qubits、深度 1；4 個閘門 × 7 = 28 個量子參數 + Linear(3→1) 4 = 32。
-    TorchLayer 的權重預設初始化為 U[0, 2π)。"""
 
     def __init__(self, n_in=4, H=3, depth=1, n_out=1):
         super().__init__()
@@ -120,7 +107,6 @@ class QLSTM(nn.Module):
 
 
 class QFWP(nn.Module):
-    """論文：s_dim 4、latent 3、3 qubits、D=1、A=1；15 + 4 + 12 + 2 = 33 個古典參數。Θ 在每個序列開頭歸零。"""
 
     def __init__(self, s_dim=4, latent=3, nq=3, D=1, A=1):
         super().__init__()
@@ -145,7 +131,6 @@ class QFWP(nn.Module):
 
 
 class LSTM(nn.Module):
-    """同樣 hidden 大小的古典 LSTM（基準，論文沒有）。"""
 
     def __init__(self, n_in=4, H=3, n_out=1):
         super().__init__()
@@ -160,19 +145,13 @@ class LSTM(nn.Module):
 MODELS = {"QLSTM": QLSTM, "QFWP": QFWP, "LSTM": LSTM}
 
 
-# ---------------------------------------------------------------- 實驗二的代理人
-
-
 def _init_normal(*layers):
-    """MorvanZhou/pytorch-A3C 的初始化：權重 N(0, 0.1)、偏差 0。"""
     for l in layers:
         nn.init.normal_(l.weight, mean=0.0, std=0.1)
         nn.init.constant_(l.bias, 0.0)
 
 
 class QNet(nn.Module):
-    """QA3C：actor、critic 各自 tanh(Linear 10→8) → 8-qubit VQC（16 個量子參數）→ Linear 頭。
-    參數：古典 2×88 + 27 + 9 = 212，量子 2×16 = 32，共 244（和論文相同）。"""
 
     def __init__(self, s_dim=10, a_dim=3, nq=8):
         super().__init__()
@@ -190,7 +169,6 @@ class QNet(nn.Module):
 
 
 class CNet(nn.Module):
-    """古典 A3C（MorvanZhou/pytorch-A3C）：actor 10→128→3、critic 10→128→1，tanh；3,332 個參數（和論文相同）。"""
 
     def __init__(self, s_dim=10, a_dim=3, h=128):
         super().__init__()

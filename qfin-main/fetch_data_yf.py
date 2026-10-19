@@ -1,11 +1,3 @@
-"""從 Yahoo Finance 下載實驗資料到 data/。
-
-用法：python fetch_data_yf.py   （需要 pip install yfinance）
-輸出：
-  data/ohlc_EURUSD_X.csv   實驗一：EUR/USD 日線 OHLC
-  data/ohlc_TWD_X.csv      實驗二：USD/TWD 日線 OHLC
-  data/etf_<代號>.csv       實驗二：貨幣 ETF 還原權值收盤價
-"""
 from pathlib import Path
 
 import yfinance as yf

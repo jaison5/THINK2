@@ -1,18 +1,11 @@
-"""極簡反向自動微分（numpy）＋ 量子電路 state-vector 模擬（adjoint 微分）。
-
-電路只包含 Ry、Rz、CNOT 與 <Z> 量測（3～8 qubits），以 state vector 精確模擬，
-結果與 PennyLane lightning.qubit + adjoint 微分相同（僅浮點誤差）。
-"""
 from __future__ import annotations
 
 import numpy as np
 
-# ---------------------------------------------------------------- 自動微分核心
-
 
 class T:
     __slots__ = ("data", "grad", "_parents", "_back", "requires_grad")
-    __array_ufunc__ = None  # numpy 陣列和 T 運算時，交給 T 的反向運算子處理
+    __array_ufunc__ = None
 
     def __init__(self, data, parents=(), back=None, requires_grad=False):
         self.data = np.asarray(data, dtype=np.float64)
@@ -42,10 +35,9 @@ class T:
                 for p, gp in zip(t._parents, grads):
                     if p.requires_grad and gp is not None:
                         p.grad = gp if p.grad is None else p.grad + gp
-            if t._parents:  # 中間節點的梯度用完就丟，省記憶體
+            if t._parents:
                 t.grad = None if t._back is not None else t.grad
 
-    # 運算子
     def __add__(self, o): return add(self, o)
     def __radd__(self, o): return add(o, self)
     def __sub__(self, o): return add(self, neg(o))
@@ -68,7 +60,6 @@ def _t(x):
 
 
 def _unb(g, shape):
-    """把 broadcast 過的梯度加總回原本的形狀。"""
     while g.ndim > len(shape):
         g = g.sum(axis=0)
     for i, s in enumerate(shape):
@@ -165,7 +156,6 @@ def reshape(a, shape):
 
 
 def tile_rows(a, n):
-    """(P,) → (n, P)，梯度沿 batch 加總（同一組權重給每個樣本）。"""
     return T(np.broadcast_to(a.data, (n,) + a.shape).copy(), (a,), lambda g: (g.sum(axis=0),))
 
 
@@ -178,15 +168,10 @@ def log_softmax(a):
     return T(out, (a,), lambda g: (g - sm * g.sum(axis=-1, keepdims=True),))
 
 
-# ---------------------------------------------------------------- 量子電路（state vector + adjoint 微分）
-
 _RY, _RZ, _CNOT, _CZ = 0, 1, 2, 3
 
 
 class CircuitRef:
-    """固定結構的電路。ops：("ry", 量子位, 參數欄位) / ("rz", q, k) / ("cnot", 控制, 目標)。
-    參數矩陣 P 的形狀為 (B, n_params)：每個樣本可以有自己的旋轉角度（編碼與 QFWP 的 fast weights 需要）。
-    init："zero"＝|0…0>，"plus"＝|+…+>。measure：要量 <Z> 的量子位。"""
 
     def __init__(self, n_qubits, ops, n_params, measure, init="zero"):
         self.n, self.n_params, self.init = n_qubits, n_params, init
@@ -206,7 +191,7 @@ class CircuitRef:
                 flip = bits[:, a] == 1
                 tgt = src.copy()
                 tgt[flip] = src[flip] ^ (1 << (n_qubits - 1 - b))
-                self.perm[(a, b)] = tgt  # CNOT 是自己的反運算：psi'[i] = psi[tgt[i]]
+                self.perm[(a, b)] = tgt
 
     def _psi0(self, B):
         dim = 2 ** self.n
@@ -222,7 +207,6 @@ class CircuitRef:
         return psi.reshape(B, 2 ** q, 2, 2 ** (self.n - 1 - q))
 
     def _apply(self, psi, kind, a, theta, inverse=False, deriv=False):
-        """回傳新的 state（不改動輸入）。theta: (B,)"""
         if kind == _CNOT:
             return psi[:, self.perm[(a, theta)]]
         v = self._view(psi, a)
@@ -259,8 +243,7 @@ class CircuitRef:
         final = psi
 
         def back(g):
-            # adjoint：lam = O psi，O = sum_k g_k Z_k
-            obs = g @ self.zsign.T  # (B, dim) 對角線
+            obs = g @ self.zsign.T
             lam = obs * final
             psi_ = final
             gP = np.zeros_like(th)
@@ -277,9 +260,6 @@ class CircuitRef:
             return (gP,)
 
         return T(ez, (P,), back)
-
-
-# ---------------------------------------------------------------- 參數與最佳化器
 
 
 def glorot(rng, fan_in, fan_out):
@@ -324,7 +304,6 @@ class Adam:
 
 
 class RMSprop(Adam):
-    """和 torch.optim.RMSprop 預設相同：alpha=0.99、eps=1e-8、無動量。"""
 
     def __init__(self, params, lr=5e-3, alpha=0.99, eps=1e-8):
         super().__init__(params, lr)
@@ -343,20 +322,18 @@ def n_params(params):
 
 
 class Circuit(CircuitRef):
-    """和 CircuitRef 同樣的電路，但把連續的 CNOT 合併成一次置換、連續（不同 qubit）的 Rz 合併成一次對角相位，
-    速度快約 2 倍；結果與 CircuitRef 相同（test_ad.py 有驗證）。"""
 
     def __init__(self, n_qubits, ops, n_params, measure, init="zero"):
         super().__init__(n_qubits, ops, n_params, measure, init)
         dim = 2 ** n_qubits
         bits = (np.arange(dim)[:, None] >> (n_qubits - 1 - np.arange(n_qubits))[None, :]) & 1
-        self.zmat = 1.0 - 2.0 * bits  # (dim, n)：Rz 的相位 exp(-iθ/2 · z)
+        self.zmat = 1.0 - 2.0 * bits
         prog = []
         for kind, a, b in self.ops:
             if kind == _CNOT:
                 p = self.perm[(a, b)]
                 if prog and prog[-1][0] == "perm":
-                    prog[-1] = ("perm", prog[-1][1][p], None)  # 先做前面的，再做這一個
+                    prog[-1] = ("perm", prog[-1][1][p], None)
                 else:
                     prog.append(("perm", p, None))
             elif kind == _RZ and prog and prog[-1][0] == "diag" and a not in prog[-1][1]:

@@ -1,12 +1,3 @@
-"""嚴謹性檢查：C 的 worker 用 NumPy 選動作，和 PennyLane 版 QA3C（qfin-main/pl_models.QNet，lightning.qubit）是否選出完全相同的動作。
-
-做法：同一個種子建 PennyLane 版與 fastsim 版的 QA3C（初始參數相同），再對兩者加上同一組隨機擾動（模擬訓練後的權重），
-跑完整個訓練期間的一個 episode。每一步抽同一個亂數 u，分別用 PennyLane 的 logits 和 NumPy 的 logits 依遮罩後的
-softmax 抽動作（反 CDF），比較兩者是否相同；環境依 PennyLane 選的動作前進，所以兩邊看到的狀態完全一樣。
-另外也比較每一步 PennyLane 與 NumPy 的動作機率。
-用法（PennyLane 環境）：python check_np_policy.py
-輸出：results/check_np_policy.json
-"""
 import json
 import sys
 from pathlib import Path
@@ -27,7 +18,6 @@ from train_c import load_probs, np_policy, sample_masked
 
 
 class FixedU:
-    """讓兩邊用同一個亂數 u 抽樣。"""
 
     def __init__(self, u):
         self.u = u
@@ -51,7 +41,7 @@ for seed in (0, 1, 2):
     torch.manual_seed(seed); pl = P.QNet()
     torch.manual_seed(seed); fs = F.QNet()
     g = torch.Generator().manual_seed(100 + seed)
-    with torch.no_grad():  # 同一組擾動（模擬訓練後的權重）
+    with torch.no_grad():
         for p in pl.parameters():
             p.add_(0.5 * torch.randn(p.shape, generator=g))
     fs.load_state_dict(pl.state_dict())

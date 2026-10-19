@@ -1,15 +1,3 @@
-"""方向 C 的交易環境：規格完整、有動作遮罩、有交易成本、可選獎勵。
-
-和 qfin-main/exp2.Env 相同的部分：10 維狀態（同樣的特徵）、動作 0 持有／1 買 1 單位／2 全部賣出、只做多、
-初始資金 10 單位（10 × 期初價格）。
-不同的部分（針對論文二的痛點）：
-  - 動作遮罩：沒錢不能買、沒部位不能賣。原本無效動作只罰 −0.1，代理人會用「無效的賣出」來空手，遮罩後這條路被關掉。
-  - 交易成本：買進付 p×(1+c)、賣出收 p×(1−c)，c 為單邊成本比例（例如 0.0005 = 0.05%）；損益與持倉成本都含成本。
-  - 獎勵 reward：
-      "paper"  ：論文 Table III（−0.02 時間成本、順勢進場 +0.5／逆勢 −2、獲利出場 +10+50×pnl%、虧損出場 −2−10×|pnl%|、
-                 持有虧損 −5×pnl%²、截斷 [−15, 30]），pnl 為扣成本後。
-      "logret" ：100 × ln(V_{t+1} / V_t)，V 為資產市值（現金 + 持倉 × 收盤價）；成本直接反映在 V 上，沒有其他人為加減分。
-"""
 from __future__ import annotations
 
 import math
@@ -91,7 +79,6 @@ class EnvC:
 
 
 def evaluate(policy, df, probs, cost):
-    """以 policy(state, mask) → 動作 跑完整段資料（不額外平倉，期末以市值計算）。回傳績效 dict。"""
     env = EnvC(df, probs, cost, "logret")
     s, done, acts, held = env.reset(), False, [], []
     while not done:
@@ -116,15 +103,11 @@ def evaluate(policy, df, probs, cost):
             "buy_hold_pct": float(100 * (df["Close"].iloc[-1] / df["Close"].iloc[0] - 1))}
 
 
-# ---------------------------------------------------------------- 規則型基準
-
-
 def policy_buy_hold(s, m):
     return 1 if m[1] else 0
 
 
 def make_policy_ma(df):
-    """均線策略：MA5 > MA20 時逐日加碼（每天買 1 單位直到資金用完），MA5 < MA20 時全部賣出。"""
     up = (df["MA5"] > df["MA20"]).to_numpy()
     state = {"t": 0}
 

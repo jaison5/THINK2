@@ -1,13 +1,3 @@
-"""方向 C：訓練一個交易代理（非同步 A3C，8 個 worker），在驗證年挑模型，在測試年用 3 種成本評估。
-
-和論文相同：8 workers、rollout 30、Shared Adam lr 1e-5（betas 0.92/0.999）、γ 0.995、熵係數 0.05、1,600 個 episode。
-不同：動作遮罩（策略只在合法動作中抽樣，損失也用遮罩後的分布；選動作用 NumPy 計算以減少每步開銷）、交易成本、可選獎勵、walk-forward、
-每 100 個 episode 在驗證年評估一次，保留驗證 Sharpe 最高的模型（避免只看最後一刻）。
-代理人：QA3C（fastsim，244 參數）、A3C_small（古典 h=9，238 參數）、A3C（古典 h=128，3,332 參數，論文的基準）。
-
-用法：python train_c.py --fold 2020 --agent QA3C --reward logret --probs qlstm --seed 0
-輸出：results/rl/<agent>_<reward>_<probs>_y<fold>_s<seed>.json
-"""
 from __future__ import annotations
 
 import argparse
@@ -20,7 +10,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE.parent / "B"))
 sys.path.insert(0, str(HERE))
-sys.path.append(str(HERE.parent / "qfin-main"))  # 只為了 QA3C_PL（PennyLane 版 QA3C）
+sys.path.append(str(HERE.parent / "qfin-main"))
 
 import numpy as np
 import pandas as pd
@@ -40,8 +30,6 @@ def load_probs(kind, test_year, df):
 
 
 def make_agent(name):
-    """QA3C／A3C／A3C_small 用 fastsim；QA3C_PL 是 PennyLane（lightning.qubit、adjoint）版的同一個 QA3C，
-    同一個種子的初始參數和 fastsim 版完全相同，只拿來做交叉驗證。"""
     if name == "QA3C_PL":
         import pl_models as P
         P.configure("lightning.qubit", "adjoint", False)
@@ -56,15 +44,12 @@ def masked_logits(logits, mask):
 
 
 def act_fn(net):
-    """選動作用的前向：QA3C 用快取矩陣的快速版本（數值和 pi 相同）。"""
     return net.pi_fast if hasattr(net, "pi_fast") else net.pi
 
 
 def np_policy(net):
-    """選動作用的 NumPy 版前向（數值和 net.pi 相同、不含梯度）。每一步只做幾個小陣列運算，
-    避免 PyTorch 每次呼叫約 0.3～0.5 ms 的固定開銷；訓練的損失與反向傳播仍用 PyTorch。"""
     g = lambda t: t.detach().cpu().numpy()
-    if hasattr(net, "pi_fast"):  # QA3C：tanh(Linear) → 乘積態 → 快取的 256×256 矩陣 → |ψ|² → <Z> → Linear
+    if hasattr(net, "pi_fast"):
         net.refresh()
         Wp, bp, Wh, bh = g(net.pa.weight), g(net.pa.bias), g(net.ha.weight), g(net.ha.bias)
         M, signs, r2 = g(net._M), g(net.signs), np.sqrt(2.0)
@@ -79,7 +64,7 @@ def np_policy(net):
             out = psi @ M
             return Wh @ ((out.real ** 2 + out.imag ** 2) @ signs) + bh
         return f
-    if not hasattr(net, "pi1"):  # QA3C_PL：選動作也用 PennyLane 計算（交叉驗證時，後端是唯一的差別）
+    if not hasattr(net, "pi1"):
         import torch
 
         def f_pl(s):
@@ -91,7 +76,6 @@ def np_policy(net):
 
 
 def sample_masked(lg, m, rng):
-    """只在合法動作中依 softmax 機率抽樣（遮罩掉的動作機率為 0）。"""
     lg = np.where(m, lg, -np.inf)
     p = np.exp(lg - lg.max())
     cdf = np.cumsum(p / p.sum())

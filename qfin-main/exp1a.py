@@ -1,5 +1,3 @@
-"""實驗 1A：照論文原樣重現 QLSTM vs QFWP（EUR/USD 日線 2003-12～2024-12、序列長度 5、80/20、2 epochs）。
-用法：python3 exp1a.py [--seeds 10] [--jobs 2]"""
 from __future__ import annotations
 import argparse, itertools, time
 from multiprocessing import Pool
@@ -7,16 +5,14 @@ import numpy as np
 from common import *
 from models import MODELS
 
-BATCHES = (1, 4, 8, 16, 32, 64)  # 1 = 論文的 non-batch
+BATCHES = (1, 4, 8, 16, 32, 64)
 
 
 VARIANT = "paper"
-LR, OPT, TAG = 0.01, "adam", ""  # 由 --lr/--opt 改寫；TAG 讓不同設定的結果分開存
+LR, OPT, TAG = 0.01, "adam", ""
 
 
 def prep(variant=None):
-    """variant：paper＝論文原樣（同一列的 O/H/L/C）；aligned＝去除前視偏誤：第 i 列改用前一根 K 棒的 High/Low
-    （Yahoo 匯率日線的 Close ≈ 該 K 棒開始時的價格，但 High/Low 涵蓋整天，會偷看到隔天的收盤）。"""
     variant = variant or VARIANT
     df = load_ohlc("EURUSD_X").loc["2003-12-01":"2024-12-31"]
     if variant == "aligned":
@@ -81,6 +77,5 @@ if __name__ == "__main__":
             for b in BATCHES]
     with Pool(a.jobs, initializer=_init, initargs=(LR, OPT, TAG)) as pool:
         pool.map(run, jobs, chunksize=1)
-
 
 

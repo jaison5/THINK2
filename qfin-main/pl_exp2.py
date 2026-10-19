@@ -1,14 +1,3 @@
-"""實驗二（PennyLane 版）：QLSTM 預測 USD/TWD 5 日趨勢 → QA3C／A3C 交易代理。
-資料、交易環境、測試方式和 numpy 版共用（exp2.load_data、exp2.Env、exp2.evaluate）。
-A3C 照論文用真正的非同步多行程（MorvanZhou/pytorch-A3C 的寫法）：8 個 worker 各自一個行程，共用 Shared Adam。
-
-用法：
-  python pl_exp2.py qlstm --seeds 3                       # QLSTM 預測器（每個種子各自存機率）
-  python pl_exp2.py rl --agent A3C  --seeds 3             # 每個種子用 8 個 CPU 核心
-  python pl_exp2.py rl --agent QA3C --seeds 1 --seed0 0   # 16 核心可以同時開兩個（--seed0 0 和 --seed0 1）
-  python report2.py exp2_pl
-注意：A3C 在 Linux／macOS 用 fork 建立 worker；Windows 沒有 fork，改用 spawn，在 worker 內重建網路並接上共享記憶體。
-"""
 from __future__ import annotations
 
 import argparse
@@ -26,11 +15,7 @@ from common import RES, dump
 OUT = RES / "exp2_pl"
 
 
-# ---------------------------------------------------------------- QLSTM 預測器
-
-
 def train_qlstm(seed, kind="QLSTM", epochs=50, batch=32, lr=5e-3, device="lightning.qubit", diff="adjoint"):
-    """論文：hidden 2、dense-softmax、50 epochs、RMSprop lr 5e-3、weighted cross-entropy（batch 32 為本實作的設定）。"""
     import torch
     import pl_models as P
     P.configure(device, diff)
@@ -80,11 +65,7 @@ def train_qlstm(seed, kind="QLSTM", epochs=50, batch=32, lr=5e-3, device="lightn
           flush=True)
 
 
-# ---------------------------------------------------------------- A3C（非同步、多行程）
-
-
 def shared_adam(params, lr, betas=(0.92, 0.999), eps=1e-8):
-    """MorvanZhou 的 SharedAdam：Adam 的狀態放在共享記憶體，所有 worker 共用。"""
     import torch
     opt = torch.optim.Adam(params, lr=lr, betas=betas, eps=eps)
     for group in opt.param_groups:
@@ -97,7 +78,6 @@ def shared_adam(params, lr, betas=(0.92, 0.999), eps=1e-8):
 
 
 def a3c_loss(net, S, A, Vt, beta):
-    """L = td² − log π(a|s)·td（停止梯度）− β·H(π)，取平均。"""
     import torch
     v = net.v(S)[:, 0]
     td = Vt - v
@@ -106,13 +86,11 @@ def a3c_loss(net, S, A, Vt, beta):
 
 
 def _shared_tensors(gnet, opt):
-    """spawn（Windows）用：QNode 無法 pickle，只把共享記憶體裡的參數和 Adam 狀態傳給 worker。"""
     ps = list(gnet.parameters())
     return [p.data for p in ps], [(opt.state[p]["step"], opt.state[p]["exp_avg"], opt.state[p]["exp_avg_sq"]) for p in ps]
 
 
 def _attach(cfg, shared, lr, betas=(0.92, 0.999), eps=1e-8):
-    """在 worker 內重建全域網路與 Shared Adam，參數和 Adam 狀態都指向主行程的共享記憶體。"""
     import torch
     import pl_models as P
     params, states = shared
@@ -130,7 +108,7 @@ def worker(wid, gnet, opt, gep, rq, cfg, dtr, ptr):
     import pl_models as P
     torch.set_num_threads(1)
     P.configure(cfg["device"], cfg["diff"])
-    if gnet is None:  # spawn：opt 傳進來的是 _shared_tensors() 的結果
+    if gnet is None:
         gnet, opt = _attach(cfg, opt, cfg["lr"])
     torch.manual_seed(cfg["seed"] * 1000 + wid)
     lnet = P.AGENTS[cfg["agent"]]()
@@ -175,7 +153,6 @@ def worker(wid, gnet, opt, gep, rq, cfg, dtr, ptr):
 
 
 class _Adapter:
-    """讓 exp2.evaluate()（numpy 版的測試函式）可以直接用 torch 模型。"""
 
     def __init__(self, net):
         self.net = net
@@ -188,7 +165,6 @@ class _Adapter:
 
 def train_rl(agent, seed, episodes, workers=8, n_step=30, gamma=0.995, beta=0.05, lr=1e-5,
              device="lightning.qubit", diff="adjoint", probs_seed=0):
-    """論文：8 workers、rollout 30、Shared Adam lr 1e-5、γ 0.995、β 0.05。episodes 為所有 worker 加總。"""
     import torch
     import pl_models as P
     P.configure(device, diff)

@@ -1,5 +1,3 @@
-"""裝好 PennyLane 後先跑這支：檢查 PennyLane 電路和 numpy 模擬器（ad.py）的輸出與梯度是否一致，並印出參數量。
-用法：python pl_check.py"""
 import numpy as np
 import torch
 import pennylane as qml
@@ -52,7 +50,7 @@ for kind in ("qlstm", "qfwp", "qa3c"):
         wt = torch.tensor(w.reshape(1, n), requires_grad=True)
         out = P._col(P.qlstm_gate_qnode(7, 3, 1)(e, wt), B)
     elif kind == "qfwp":
-        wt = torch.tensor(np.tile(w, (B, 1)), requires_grad=True)  # Θ 每個樣本各自一份
+        wt = torch.tensor(np.tile(w, (B, 1)), requires_grad=True)
         out = P._col(P.qfwp_qnode(3, 1, 1)(e, wt), B)
     else:
         wt = torch.tensor(w, requires_grad=True)

@@ -1,4 +1,3 @@
-"""彙整實驗二：預測器準確率、QA3C vs A3C 測試成績（對應論文 Table IV）、ETF 基準（Table V）。"""
 from __future__ import annotations
 import json
 import numpy as np
@@ -6,7 +5,7 @@ import pandas as pd
 from common import DATA, RES
 
 import sys
-OUT = RES / (sys.argv[1] if len(sys.argv) > 1 else "exp2")  # 例如 exp2_pl
+OUT = RES / (sys.argv[1] if len(sys.argv) > 1 else "exp2")
 PAPER_T4 = {"A3C": {"total_return_pct": 11.42, "max_drawdown_pct": 0.92, "trades": 230, "win_rate_pct": 54.78,
                     "best_trade_pct": 0.61, "worst_trade_pct": -0.88},
             "QA3C": {"total_return_pct": 11.87, "max_drawdown_pct": 0.92, "trades": 231, "win_rate_pct": 56.71,
@@ -40,7 +39,6 @@ def main():
                               "std": {k: float(pd.to_numeric(df[k], errors="coerce").std(ddof=1)) for k in keys},
                               "paper": PAPER_T4[agent], "buy_hold_pct": rs[0]["test"]["buy_hold_pct"],
                               "test_window": [rs[0]["test"]["start"], rs[0]["test"]["end"]]}
-        # 每個種子的資產曲線另存，畫圖用
     for s, p in PAPER_T5.items():
         e = pd.read_csv(DATA / f"etf_{s}.csv", parse_dates=["date"]).set_index("date").Close.loc["2020-04-01":"2025-04-30"]
         o["etf"].append({"etf": s, "ours_pct": float(100 * (e.iloc[-1] / e.iloc[0] - 1)), "paper_pct": p})

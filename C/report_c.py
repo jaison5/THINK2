@@ -1,5 +1,3 @@
-"""彙整方向 C 的結果 → results/summary_c.json、results/summary_c.md。
-用法：python report_c.py"""
 from __future__ import annotations
 
 import json
@@ -44,7 +42,6 @@ def compound(rets):
 
 
 def summarize(df):
-    """每個設定：5 年（2020～2024）複利報酬（每個種子各算一次再平均）、每年平均報酬、Sharpe、交易次數、持倉比例。"""
     out = []
     for key, g in df.groupby(["agent", "reward", "probs", "cost"]):
         comp = [compound(gs.sort_values("year").ret) for _, gs in g.groupby("seed") if gs.year.nunique() == 5]
@@ -59,7 +56,6 @@ def summarize(df):
 
 def main():
     md, out = [], {}
-    # ---- 預測器
     fc = pd.DataFrame([json.loads(p.read_text()) for p in sorted((RES / "forecaster").glob("forecaster_y*.json"))])
     n, k = int(fc.n_test.sum()), int(fc.test_correct.sum())
     acc = k / n
@@ -70,7 +66,6 @@ def main():
     t.columns = ["測試年", "訓練筆數", "測試筆數（±1.2% 標籤）", "測試準確率", "全猜多數類別"]
     md += ["\n### QLSTM 預測器（每個 fold 重新訓練）\n", md_table(t),
            f"\n合併 5 個 fold：{k}／{n} = {100 * acc:.1f}%，95% 信賴區間 ±{100 * ci:.1f} 個百分點。\n"]
-    # ---- 規則型基準
     bl = pd.DataFrame(json.loads((RES / "baselines.json").read_text()))
     bl = bl.rename(columns={"total_return_pct": "ret", "sharpe_ann": "sharpe", "max_drawdown_pct": "mdd",
                             "time_in_market_pct": "in_mkt", "test_year": "year"})
@@ -84,7 +79,6 @@ def main():
                     "sharpe": float(g.sharpe.mean()), "trades_year": float(g.trades.mean()), "in_mkt": float(g.in_mkt.mean())})
     bls = pd.DataFrame(bls)
     out["baselines"] = bls.to_dict("records")
-    # ---- 代理人
     df = load_rl()
     s = summarize(df)
     out["rl_summary"] = s.to_dict("records")
@@ -113,7 +107,6 @@ def main():
     e3 = s[(s.agent == "A3C_small") & (s.reward == "logret") & (s.cost == 0.0005)].copy()
     e3["label"] = e3.probs.map({"none": "沒有預測器（0.5）", "qlstm": "QLSTM 預測器", "oracle": "理想預測器（用未來資訊，上限）"})
     md += ["\n### E3 預測器消融（古典 A3C h=9、logret、成本 0.05%）\n", md_table(table(e3.sort_values("probs"), "狀態裡的預測"))]
-    # ---- 成對檢定：QA3C vs 古典（同 fold、同種子配對）
     pairs = []
     for other in ("A3C_small", "A3C"):
         for c in (0.0, 0.0005, 0.001):
@@ -128,7 +121,6 @@ def main():
     out["pairs"] = pairs
     if pairs:
         md += ["\n### QA3C 與古典 A3C 的成對比較（同 fold、同種子）\n", md_table(pd.DataFrame(pairs))]
-    # ---- 交叉驗證 1：PennyLane（lightning.qubit）後端 vs 新程式（fastsim＋NumPy 選動作），2024 年、種子 0～2
     def runs(d, agent, year=None, seeds=None, cost=0.0005):
         x = d[(d.agent == agent) & (d.reward == "logret") & (d.probs == "qlstm") & (d.cost == cost)]
         if year is not None:
@@ -154,7 +146,6 @@ def main():
             from scipy.stats import mannwhitneyu
             md += [f"\n測試年報酬的 Mann–Whitney U 檢定 p = {mannwhitneyu(pl.ret, fs.ret).pvalue:.3f}"
                    "（只有 3 對 3，主要看兩邊的數值範圍是否重疊）。\n"]
-    # ---- 交叉驗證 2：舊版（PyTorch 抽樣）vs 新版（NumPy 抽樣），同 fold、同種子
     old_dir = RES / "rl_old_sampler"
     if old_dir.exists() and any(old_dir.glob("*.json")):
         od = load_rl("rl_old_sampler")

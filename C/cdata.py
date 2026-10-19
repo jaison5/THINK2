@@ -1,9 +1,3 @@
-"""方向 C 的資料、walk-forward 切分與 QLSTM 預測器（每個 fold 重新訓練）。
-
-資料清理、技術指標和 qfin-main/exp2.py 完全相同（讀 C/data/ohlc_TWD_X.csv）。
-fold：測試年 2020～2024（涵蓋論文原本的測試期），驗證年 = 前一年，訓練 = 2004-07 起到測試年前兩年的年底。
-預測器用 ../B/fastsim.py 的 QLSTM（和 PennyLane 版等價，見 B/check_fastsim.py）。
-"""
 from __future__ import annotations
 
 import sys
@@ -25,7 +19,7 @@ def load_data():
     df = df[["Open", "High", "Low", "Close"]].astype(float)
     df = df[(df > 0).all(axis=1)].dropna()
     df = df[~df.index.duplicated(keep="last")].sort_index().loc["2000-01-01":"2024-12-31"].copy()
-    for _ in range(10):  # 刪除錯誤報價（和前後兩天平均差 25% 以上），同 exp2.load_data
+    for _ in range(10):
         lc = np.log(df[["Open", "High", "Low", "Close"]])
         bad = ((lc - (lc.shift(1) + lc.shift(-1)) / 2).abs() > 0.25).any(axis=1)
         if not bad.any():
@@ -40,7 +34,6 @@ def load_data():
 
 
 def split(df, test_year):
-    """回傳 (訓練, 驗證, 測試) 的布林遮罩。"""
     y = df.index.year
     return y <= test_year - 2, y == test_year - 1, y == test_year
 
@@ -53,7 +46,6 @@ def labels(df):
 
 
 def probs_oracle(df):
-    """理想預測器（上限，用到未來 5 天的資訊）：會漲 1.2% 以上給 p_up=1，會跌 1.2% 以上給 p_down=1，其他 0.5。"""
     lab, _ = labels(df)
     p = np.full((len(df), 2), 0.5)
     p[lab == 1] = [0.0, 1.0]
@@ -62,8 +54,6 @@ def probs_oracle(df):
 
 
 def train_forecaster(df, test_year, seed=0, epochs=50, batch=32, lr=5e-3):
-    """和論文相同的 QLSTM 預測器（hidden 2、dense-softmax、RMSprop 5e-3、weighted CE、50 epochs），只用該 fold 的訓練期資料。
-    回傳 (每天的 [p_down, p_up], 結果 dict)。"""
     import torch
     import fastsim as F
     torch.set_num_threads(1)

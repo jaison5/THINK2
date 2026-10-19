@@ -1,6 +1,3 @@
-"""核對 fastsim.py 和 PennyLane 版（qfin-main/pl_models.py）是否完全等價，並找出結構上永遠是零梯度的參數。
-用法（qfin-main 的 PennyLane 環境）：python check_fastsim.py
-輸出：results/check_fastsim.json"""
 import json
 import sys
 from pathlib import Path
@@ -26,7 +23,6 @@ def flat(ts):
 
 
 def compare(name, make_pl, make_fs, run):
-    """同一個種子建兩個模型 → 比初始參數、輸出、每個參數的梯度。"""
     global ok
     torch.manual_seed(123)
     mp = make_pl()
@@ -55,7 +51,6 @@ compare("QLSTM2", lambda: P.QLSTM(n_in=6, H=2, n_out=2), lambda: F.QLSTM(n_in=6,
 S = torch.rand(16, 10)
 compare("QA3C", lambda: P.QNet(), lambda: F.QNet(), lambda m: torch.cat([m.pi(S), m.v(S)], dim=1))
 
-# ---- 結構上永遠是零梯度的參數（用 1,000 筆真實訓練資料、10 組隨機初始參數）
 print("\n結構上不影響輸出的參数（梯度恆為 0）：", flush=True)
 dead = {}
 Xd = torch.tensor(X[:1000])

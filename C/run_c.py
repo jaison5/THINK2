@@ -1,12 +1,3 @@
-"""方向 C 的總控：先訓練每個 fold 的 QLSTM 預測器、算規則型基準，再依序跑所有代理人的訓練（同時跑 K 個）。
-
-實驗組合（訓練成本 0.05%，測試時再用 0／0.05%／0.1% 三種成本評估；5 個 fold × 3 個種子）：
-  E1 主實驗   ：獎勵 logret、QLSTM 預測機率；代理人 QA3C、A3C_small、A3C
-  E2 獎勵消融 ：獎勵 paper（論文 Table III，有遮罩與成本）；代理人 QA3C、A3C_small
-  E3 預測器消融：獎勵 logret；A3C_small 搭配「沒有預測器（0.5）」與「理想預測器（用到未來資訊，當上限）」
-
-用法：python run_c.py --parallel 3
-"""
 from __future__ import annotations
 
 import argparse
@@ -57,7 +48,7 @@ def baselines():
 def jobs():
     import cdata
     J = []
-    for agent in ("QA3C", "A3C_small", "A3C"):  # QA3C 最慢，先跑
+    for agent in ("QA3C", "A3C_small", "A3C"):
         for reward, probs, agents in (("logret", "qlstm", ("QA3C", "A3C_small", "A3C")),
                                       ("paper", "qlstm", ("QA3C", "A3C_small")),
                                       ("logret", "none", ("A3C_small",)), ("logret", "oracle", ("A3C_small",))):
@@ -83,7 +74,7 @@ if __name__ == "__main__":
     print(f"代理人訓練：共 {len(jobs())} 次，待跑 {len(todo)} 次，同時 {a.parallel} 個", flush=True)
     running, done = [], 0
     t0 = time.time()
-    ptxt = HERE / "parallel.txt"  # 執行中可改這個檔案調整同時跑幾個（例如方向 A 跑完後調高）
+    ptxt = HERE / "parallel.txt"
     ptxt.write_text(str(a.parallel))
     while todo or running:
         try:
